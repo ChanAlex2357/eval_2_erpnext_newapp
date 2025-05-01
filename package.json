@@ -1,0 +1,23 @@
+{
+  "name": "eval-2-newapp",
+  "version": "1.0.0",
+  "description": "Newapp for ERPNext in context of evaluation 2",
+  "homepage": "https://github.com/ChanAlex2357/eval_2_erpnext_newapp#readme",
+  "bugs": {
+    "url": "https://github.com/ChanAlex2357/eval_2_erpnext_newapp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChanAlex2357/eval_2_erpnext_newapp.git"
+  },
+  "license": "ISC",
+  "author": "Chan Alex",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
