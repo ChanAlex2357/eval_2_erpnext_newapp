@@ -17,5 +17,4 @@ public class UserErpNext {
         this.email = email;
         this.fullName = fullName;
     }
-
 }
