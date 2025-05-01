@@ -1,5 +1,6 @@
 package itu.eval_2.newapp.models.api.responses;
 
+import itu.eval_2.newapp.models.user.UserErpNext;
 import lombok.Data;
 
 @Data
@@ -10,4 +11,8 @@ public class LoginResponse {
     private String username;
     private String full_name;
     private String email;
+
+    public UserErpNext getUser() {
+        return new UserErpNext(sid, api_key, api_secret, username, email, full_name);
+    }
 }
