@@ -30,7 +30,7 @@ public class ApiConfig {
         return baseUrl + method + url;
     }
 
-    public String getRessourceUrl(String doctype,List<String> fields){
+    public String getRessourceUrl(String doctype,String[] fields){
         String uri = baseUrl + ressource +"/"+ doctype;
 
         String fieldsStr = makeResourceFields(fields); 
@@ -41,17 +41,17 @@ public class ApiConfig {
 
         return uri;
     }
-    private String makeResourceFields(List<String> fields){
-        if (fields.size() == 0) {
+    private String makeResourceFields(String[] fields){
+        if (fields == null || fields.length == 0) {
             return "";
         }
 
         String fieldsStr = "fields=[";
 
         String suffix = ",";
-        for (int i = 0; i < fields.size(); i++) {
-            String f = fields.get(i);
-            if (i == fields.size() - 1) {
+        for (int i = 0; i < fields.length; i++) {
+            String f = fields[i];
+            if (i == fields.length - 1) {
                 suffix = "";
             }
             fieldsStr += "\"" + f + "\""+suffix;
@@ -61,8 +61,13 @@ public class ApiConfig {
         return fieldsStr;
     }
 
-    public String getRessourceUrl(String url) {
-        return baseUrl + ressource + url;
+    public String getRessourceUrl(String doctype) {
+        return getRessourceUrl(doctype, null);
+    }
+
+    public String getResourceWithAllFieldsUrl(String doctype){
+        String[] fields = new String[]{"*"};
+        return getRessourceUrl(doctype, fields);
     }
 
 
