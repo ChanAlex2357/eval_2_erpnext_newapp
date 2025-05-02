@@ -1,7 +1,10 @@
 package itu.eval_2.newapp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,50 +44,23 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String processLogin(
-        @Validated @ModelAttribute("loginForm") LoginRequest loginRequest,
+    public ResponseEntity<ApiResponseWrapper<LoginResponse>> processLogin(
+		@Validated @ModelAttribute("loginForm") LoginRequest loginRequest,
         BindingResult bindingResult,
         HttpSession session,
         RedirectAttributes redirectAttributes
-    ) {    
-        log.info(loginRequest.toString());
-        // Validation des champs
-        if (bindingResult.hasErrors()) {
-            return "auth/login";
-        }
-
+	) {
         try {
-            // FrappeApi frappeApi = new FrappeApi(loginRequest);
-            // apiService.callMethod(
-            //     "/login", 
-            //     HttpMethod.GET, 
-            //     frappeApi
-            // );
-
-            // ApiResponseWrapper response = frappeApi.getResponseModel();
-            // ApiResponse<LoginResponse> model = (ApiResponse<LoginResponse>)response.getMessage();
+            ResponseEntity<ApiResponseWrapper<LoginResponse>> response = authService.callLogin(loginRequest);
             
-            // if (response.getMessage() != null && model.getData() != null) { 
-            //     LoginResponse loginResponse = (LoginResponse) model.getData();
-            //     session.setAttribute("user", loginResponse.getUser());
-            //     session.setMaxInactiveInterval(1800); // 30 minutes
-            //     return "redirect:/supplier/home";
-            // }
-            
-            // redirectAttributes.addFlashAttribute("error", "Identifiants incorrects");
+			ApiResponseWrapper<LoginResponse> body = response.getBody();
 
-            authService.callLogin(loginRequest);
-
+            return response;
         } catch (HttpClientErrorException e) {
-            redirectAttributes.addFlashAttribute("error", 
-                "Erreur de connexion: " + e.getStatusCode().value());
+            throw e;
         } catch (Exception e) {
-            log.error("ERROR == ", e);
-            redirectAttributes.addFlashAttribute("error", 
-                "Service indisponible. Veuillez réessayer plus tard.");
+            throw e;
         }
-        
-        return "redirect:/auth/login";
     }
 
     @GetMapping("/logout")
