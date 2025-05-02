@@ -1,0 +1,16 @@
+package itu.eval_2.newapp.controllers.api;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/suppliers")
+public class SupplierApiController {
+    
+    @GetMapping
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok().body("Hello from suppliers");
+    } 
+}
