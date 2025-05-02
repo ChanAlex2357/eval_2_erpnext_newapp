@@ -26,4 +26,9 @@ public class LoginRequest implements RequestModel {
     public void setPwd(String password) {
         this.pwd = password;
     }
+
+    @Override
+    public String toString() {
+        return "usr = "+getUsr()+" ; pwd = "+getPwd()+"";
+    }
 }
