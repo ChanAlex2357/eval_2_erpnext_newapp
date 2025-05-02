@@ -1,7 +1,5 @@
 package itu.eval_2.newapp.config;
 
-import java.util.List;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.util.UriComponentsBuilder;

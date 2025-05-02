@@ -1,6 +1,5 @@
 package itu.eval_2.newapp.services.frappe.supplier;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

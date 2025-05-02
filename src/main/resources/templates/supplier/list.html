@@ -81,6 +81,10 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Group</th>
+                    <th>Company</th>
+                    <th>Type</th>
+                    <th>Details</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -124,52 +128,69 @@
                 console.log(body);
 
                 // Populate table with suppliers
+                // Populate table witbopdpaltiaers
                 body.data.forEach(supplier => {
-                    const row = document.createElement('tr');
-                    
-                    // Name column
-                    const nameCell = document.createElement('td');
-                    nameCell.textContent = supplier.name;
-                    
-                    // Actions column
-                    const actionsCell = document.createElement('td');
-                    const actionsDiv = document.createElement('div');
-                    actionsDiv.className = 'action-buttons';
-                    
-                    // View Orders button
-                    const viewBtn = document.createElement('button');
-                    viewBtn.className = 'btn btn-view';
-                    viewBtn.textContent = 'View Orders';
-                    viewBtn.onclick = function() {
-                        window.location.href = `/supplier/${supplier.id}/orders`;
-                    };
-                    
-                    // View Quotes button
-                    const quotesBtn = document.createElement('button');
-                    quotesBtn.className = 'btn btn-quotes';
-                    quotesBtn.textContent = 'View Quotes';
-                    quotesBtn.onclick = function() {
-                        window.location.href = `/supplier/${supplier.id}/quotes`;
-                    };
-                    
-                    actionsDiv.appendChild(viewBtn);
-                    actionsDiv.appendChild(quotesBtn);
-                    actionsCell.appendChild(actionsDiv);
-                    
-                    row.appendChild(nameCell);
-                    row.appendChild(actionsCell);
-                    suppliersBody.appendChild(row);
+                        const row = document.createElement('tr');
+
+                        // Name column
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = supplier.name;
+
+                        // Group column
+                        const groupCell = document.createElement('td');
+                        groupCell.textContent = supplier.supplier_group;
+
+                        // Company column
+                        const companyCell = document.createElement('td');
+                        companyCell.textContent = supplier.represents_company || 'N/A';
+
+                        // Type column
+                        const typeCell = document.createElement('td');
+                        typeCell.textContent = supplier.supplier_type;
+
+                        // Details column
+                        const detailsCell = document.createElement('td');
+                        detailsCell.textContent = supplier.supplier_details || 'No details available';
+
+                        // Actions column
+                        const actionsCell = document.createElement('td');
+                        const actionsDiv = document.createElement('div');
+                        actionsDiv.className = 'action-buttons';
+
+                        // View Orders button
+                        const viewBtn = document.createElement('button');
+                        viewBtn.className = 'btn btn-view';
+                        viewBtn.textContent = 'View Orders';
+                        viewBtn.onclick = function() {
+                            window.location.href = `/supplier/${supplier.name}/orders`;
+                        };
+
+                        // View Quotes button
+                        const quotesBtn = document.createElement('button');
+                        quotesBtn.className = 'btn btn-quotes';
+                        quotesBtn.textContent = 'View Quotes';
+                        quotesBtn.onclick = function() {
+                            window.location.href = `/supplier/${supplier.name}/quotes`;
+                        };
+
+                        actionsDiv.appendChild(viewBtn);
+                        actionsDiv.appendChild(quotesBtn);
+                        actionsCell.appendChild(actionsDiv);
+
+                        row.appendChild(nameCell);
+                        row.appendChild(groupCell);
+                        row.appendChild(companyCell);
+                        row.appendChild(typeCell);
+                        row.appendChild(detailsCell);
+                        row.appendChild(actionsCell);
+
+                        suppliersBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching suppliers:', error);
+                    suppliersBody.innerHTML = '<tr><td colspan="6" class="error">Failed to load suppliers.</td></tr>';
                 });
-            })
-            .catch(error => {
-                console.log(error);
-                console.error('Error fetching suppliers:', error);
-                suppliersBody.innerHTML = `
-                    <tr>
-                        <td colspan="2" class="loading">Error loading suppliers. Please try again.</td>
-                    </tr>
-                `;
-            });
         });
     </script>
 </body>
