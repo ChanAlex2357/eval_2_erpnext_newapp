@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Quotations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Supplier Quotations</h1>
+        
+        <!-- Filter Form -->
+        <form th:action="@{/suppliers}" method="get" class="mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <label for="supplierFilter" class="form-label">Filter by Supplier:</label>
+                    <input type="text" class="form-control" id="supplierFilter" name="supplier" 
+                           th:value="${supplier_name}" placeholder="Enter supplier name">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary mt-4">Filter</button>
+                    <a th:href="@{/suppliers}" class="btn btn-secondary mt-4 ms-2">Clear</a>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Quotations Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Quotation Number</th>
+                        <th>Supplier</th>
+                        <th>Date</th>
+                        <th>Valid Till</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- This would be populated dynamically from the server -->
+                    <tr th:each="quotation : ${quotations}">
+                        <td th:text="${quotation.quotationNumber}">QTN-0001</td>
+                        <td th:text="${quotation.supplierName}">Supplier ABC</td>
+                        <td th:text="${#temporals.format(quotation.creation, 'dd-MM-yyyy')}">01-01-2023</td>
+                        <td th:text="${quotation.validTill}">31-01-2023</td>
+                        <td th:text="${'$' + #numbers.formatDecimal(quotation.grandTotal, 1, 2)}">$1,000.00</td>
+                        <td>
+                            <span th:class="${quotation.status == 'Draft' ? 'badge bg-warning' : 
+                                            quotation.status == 'Submitted' ? 'badge bg-primary' : 
+                                            quotation.status == 'Cancelled' ? 'badge bg-danger' : 'badge bg-success'}"
+                                  th:text="${quotation.status}">Draft</span>
+                        </td>
+                        <td>
+                            <a th:href="${supplier_uri + '/' + quotation.name}" class="btn btn-sm btn-info">View</a>
+                        </td>
+                    </tr>
+                    <tr th:unless="${quotations != null and !quotations.isEmpty()}">
+                        <td colspan="7" class="text-center">No quotations found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
