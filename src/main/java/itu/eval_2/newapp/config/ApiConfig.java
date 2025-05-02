@@ -46,7 +46,7 @@ public class ApiConfig {
             return "";
         }
 
-        String fieldsStr = "fields=[";
+        String fieldsStr = "[";
 
         String suffix = ",";
         for (int i = 0; i < fields.length; i++) {
@@ -57,7 +57,7 @@ public class ApiConfig {
             fieldsStr += "\"" + f + "\""+suffix;
         }
 
-        fieldsStr = "]";
+        fieldsStr += "]";
         return fieldsStr;
     }
 
