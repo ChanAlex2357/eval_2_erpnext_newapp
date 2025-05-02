@@ -2,7 +2,6 @@ package itu.eval_2.newapp.services.frappe.supplier;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
@@ -46,10 +44,12 @@ public class ErpNextSupplierServiceImpl implements SupplierService {
                 SupplierListResponse.class
             );
 
-            if (response.getBody()==null) {
+            SupplierListResponse body = response.getBody();
+            if ( body == null ) {
                 return new ArrayList<ErpNextSupplier>();
             }
-            return response.getBody().getData();
+
+            return body.getData();
         } catch (RestClientException e) {
             throw new ERPNextIntegrationException("Failed to fetch suppliers", e);
         }
