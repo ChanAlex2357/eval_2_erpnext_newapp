@@ -1,5 +1,6 @@
 package itu.eval_2.newapp.models.supplier;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 import lombok.Data;
@@ -7,7 +8,10 @@ import lombok.Data;
 @Data
 public class ErpNextSupplier {
     private String name;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creation;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modified;
     private String modifiedBy;
     private String owner;
@@ -53,6 +57,4 @@ public class ErpNextSupplier {
     private String assign;
     private String likedBy;
 
-    // Getters and Setters
-    // ...
 }
