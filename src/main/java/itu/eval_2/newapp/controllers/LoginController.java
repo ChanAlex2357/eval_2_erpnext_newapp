@@ -9,14 +9,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import itu.eval_2.newapp.models.api.requests.LoginRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 @RequestMapping("/auth")
 public class LoginController {
 
     // @Autowired
     // private FrappeApiService apiService;
-
 
     @GetMapping("/login")
     public String showLoginPage(@RequestParam(required = false) String error, HttpSession session ,Model model) {
@@ -28,11 +29,12 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String processLogin(@Validated @ModelAttribute("loginForm") LoginRequest loginRequest,
-                             BindingResult bindingResult,
-                             HttpSession session,
-                             RedirectAttributes redirectAttributes) {
-        
+    public String processLogin(
+        @Validated @ModelAttribute("loginForm") LoginRequest loginRequest,
+        BindingResult bindingResult,
+        HttpSession session,
+        RedirectAttributes redirectAttributes
+    ) {    
         // Validation des champs
         if (bindingResult.hasErrors()) {
             return "auth/login";

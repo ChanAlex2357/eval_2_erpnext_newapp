@@ -1,6 +1,6 @@
 package itu.eval_2.newapp.models.api;
 
-import java.net.http.HttpResponse;
+import org.springframework.http.ResponseEntity;
 
 import itu.eval_2.newapp.models.api.requests.RequestModel;
 import itu.eval_2.newapp.models.api.responses.ResponseModel;
@@ -11,13 +11,13 @@ import lombok.Data;
 public class FrappeApi {
     RequestModel requestModel;
     ResponseModel responseModel;
-    HttpResponse<ApiResponseWrapper<? extends RequestModel>> response;
+    ResponseEntity<ApiResponseWrapper<? extends ResponseModel>> response;
     private FrappeApi(RequestModel requestModel,ResponseModel responseModel){
         setRequestModel(requestModel);
         setRequestModel(requestModel);
     }
 
     public ApiResponseWrapper<? extends ResponseModel> getResponseBody(){
-        return getResponse().body();
+        return getResponse().getBody();
     }
 }
