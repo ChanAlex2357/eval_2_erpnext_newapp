@@ -26,7 +26,7 @@ public class UserErpNext {
 
     public String getAuthToken() {
         if (!isAuthenticated()) {
-            throw new SecurityException("User not authenticated");
+            throw new SecurityException("User not authenticated "+keys+"  "+keys.isValid());
         }
         return "token " + getKeys().getAuthorizationKeys();
     }

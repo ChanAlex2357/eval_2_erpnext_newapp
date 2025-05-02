@@ -64,13 +64,13 @@ public String processLogin(
             LoginResponse data = body.getData();
             UserErpNext user = data.getUser();
             
-            session.setAttribute("user", user);
             session.setAttribute("token", user.getAuthToken());
+            session.setAttribute("user", user);
             
             // Set session timeout (30 minutes)
             session.setMaxInactiveInterval(30 * 60);
             
-            return "redirect:/supplier/home";
+            return "redirect:/user/profile";
         } else {
             redirectAttributes.addFlashAttribute("error", 
                 body != null ? body.getMessage() : "Login failed");

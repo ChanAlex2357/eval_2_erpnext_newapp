@@ -1,0 +1,35 @@
+<header th:fragment="header" class="site-header">
+    <div class="header-container">
+        <div class="header-brand">
+            <a th:href="@{/}" class="logo">
+                <img th:src="@{/img/logo.jpeg}" alt="NewApp Logo" class="logo-img">
+                <span class="logo-text">NewApp</span>
+            </a>
+        </div>
+        
+        <nav class="header-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a th:href="@{/}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/user/profile}" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/settings}" class="nav-link">Settings</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="user-menu" th:if="${session.user != null}">
+                <span class="user-greeting">Hello, <span th:text="${session.user.fullName}">User</span></span>
+                <a th:href="@{/auth/logout}" class="btn-logout">Logout</a>
+            </div>
+            <div class="auth-actions" th:unless="${session.user != null}">
+                <a th:href="@{/auth/login}" class="btn-login">Login</a>
+                <a th:href="@{/auth/register}" class="btn-register">Register</a>
+            </div>
+        </div>
+    </div>
+</header>

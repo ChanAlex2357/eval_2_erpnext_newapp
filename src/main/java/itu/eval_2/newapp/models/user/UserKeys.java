@@ -13,11 +13,11 @@ public class UserKeys {
     }
 
     private boolean isApiKey(){
-        return getApiKey() !=null && getApiKey().isEmpty();
+        return getApiKey() !=null && !getApiKey().isEmpty();
     }
 
     private boolean isApiSecret(){
-        return getApiSecret() != null && getApiSecret().isEmpty();
+        return getApiSecret() != null && !getApiSecret().isEmpty();
     }
 
     public boolean isValid(){
