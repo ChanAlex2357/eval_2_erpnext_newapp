@@ -1,7 +1,6 @@
 package itu.eval_2.newapp.services.frappe;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,8 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.models.api.FrappeApi;
-import itu.eval_2.newapp.models.api.responses.ResponseModel;
-import itu.eval_2.newapp.models.api.wrapper.ApiResponseWrapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
