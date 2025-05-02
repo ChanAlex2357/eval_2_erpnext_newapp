@@ -23,4 +23,12 @@ public class ApiConfig {
         return baseUrl + method;
     }
 
+    public String getMethodUrl(String url) {
+        return baseUrl + method + url;
+    }
+
+    public String getRessourceUrl(String url) {
+        return baseUrl + ressource + url;
+    }
+
 }

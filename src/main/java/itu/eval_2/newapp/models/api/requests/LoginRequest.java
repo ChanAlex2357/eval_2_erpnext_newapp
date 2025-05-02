@@ -1,6 +1,6 @@
 package itu.eval_2.newapp.models.api.requests;
 
-public class LoginRequest {
+public class LoginRequest implements RequestModel {
     private String usr;
     private String pwd;
 

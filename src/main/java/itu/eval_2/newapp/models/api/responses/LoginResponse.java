@@ -4,7 +4,7 @@ import itu.eval_2.newapp.models.user.UserErpNext;
 import lombok.Data;
 
 @Data
-public class LoginResponse {
+public class LoginResponse implements ResponseModel {
     private String sid;
     private String api_key;
     private String api_secret;

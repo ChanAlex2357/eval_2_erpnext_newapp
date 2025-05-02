@@ -7,4 +7,13 @@ import lombok.Data;
 @Data
 public class ApiResponseWrapper<T extends ResponseModel> {
     private ApiResponse<T> message;
+
+    public ApiResponseWrapper(T model) {
+        this.message = new ApiResponse<>();
+        this.message.setData(model);
+    }
+
+    public T getData() {
+        return message.getData();
+    }
 }

@@ -1,95 +1,70 @@
 package itu.eval_2.newapp.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.models.api.requests.LoginRequest;
-import itu.eval_2.newapp.models.api.responses.ApiResponse;
-import itu.eval_2.newapp.models.api.responses.LoginResponse;
-import itu.eval_2.newapp.models.api.wrapper.ApiRequestWrapper;
-import itu.eval_2.newapp.models.api.wrapper.ApiResponseWrapper;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
+@RequestMapping("/auth")
 public class LoginController {
 
-    @Autowired
-    private final ApiConfig apiConfig;
-    @Autowired
-    private final RestTemplate restTemplate;
+    // @Autowired
+    // private FrappeApiService apiService;
 
-    public LoginController(ApiConfig apiConfig, RestTemplate restTemplate) {
-        this.apiConfig = apiConfig;
-        this.restTemplate = restTemplate;
-    }
 
     @GetMapping("/login")
-    public String showLoginPage() {
-        return "login";
+    public String showLoginPage(@RequestParam(required = false) String error, HttpSession session ,Model model) {
+        if (session.getAttribute("user") != null) {
+            return "redirect:/supplier/home";
+        }
+        model.addAttribute("loginForm",new LoginRequest());
+        return "auth/login";
     }
 
     @PostMapping("/login")
-    public String doLogin(@Validated LoginRequest apiRequest,
-                        BindingResult bindingResult,
-                        HttpSession session,
-                        RedirectAttributes redirectAttributes) {
+    public String processLogin(@Validated @ModelAttribute("loginForm") LoginRequest loginRequest,
+                             BindingResult bindingResult,
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
         
-        // Validate input
+        // Validation des champs
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/login";
+            return "auth/login";
         }
 
-        try {
-            // Prepare headers
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            // Create request entity
-            HttpEntity<LoginRequest> requestEntity = 
-                new HttpEntity<>(apiRequest, headers);
-
-            // Make API call
-            ResponseEntity<ApiResponseWrapper<LoginResponse>> response = restTemplate.exchange(
-                apiConfig.getRessourceUrl(),
-                HttpMethod.POST,
-                requestEntity,
-                new ParameterizedTypeReference<ApiResponseWrapper<LoginResponse>>() {});
-
-            // Handle response
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                ApiResponse<LoginResponse> apiResponse = response.getBody().getMessage();
-                
-                if (apiResponse.isSuccess()) {
-                    // Store user session data
-                    LoginResponse loginResponse = apiResponse.getData();
-                    session.setAttribute("user", loginResponse.getUser());
-                    session.setAttribute("token", loginResponse.getToken());
+        // try {
                     
-                    return "redirect:/supplier/home";
-                }
-            }
+        //     ApiResponseWrapper<? extends ResponseModel> response = apiService.callMethod("/eval_app.api.login","GET", loginRequest, new LoginResponse());
             
-            redirectAttributes.addFlashAttribute("error", "Invalid credentials");
-            return "redirect:/login";
+        //     if (response.getMessage() != null && response.getMessage().getData() != null) { 
+        //         LoginResponse loginResponse = (LoginResponse) response.getMessage().getData();
+        //         session.setAttribute("user", loginResponse.getUser());
+        //         session.setMaxInactiveInterval(1800); // 30 minutes
+                
+        //         return "redirect:/supplier/home";
+        //     }
             
-        } catch (HttpClientErrorException e) {
-            redirectAttributes.addFlashAttribute("error", "Login failed: " + e.getStatusCode());
-            return "redirect:/login";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Service unavailable. Please try again later.");
-            return "redirect:/login";
-        }
+        //     redirectAttributes.addFlashAttribute("error", "Identifiants incorrects");
+        // } catch (HttpClientErrorException e) {
+        //     redirectAttributes.addFlashAttribute("error", 
+        //         "Erreur de connexion: " + e.getStatusCode().value());
+        // } catch (Exception e) {
+        //     redirectAttributes.addFlashAttribute("error", 
+        //         "Service indisponible. Veuillez réessayer plus tard.");
+        // }
+        
+        return "redirect:/auth/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/auth/login";
     }
 }
