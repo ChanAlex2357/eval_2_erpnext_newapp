@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class ApiResponseWrapper<T> {
     private ApiResponse<T> message;
+    private String home_page;
+    private String full_name;
 
 
     public T getData(){

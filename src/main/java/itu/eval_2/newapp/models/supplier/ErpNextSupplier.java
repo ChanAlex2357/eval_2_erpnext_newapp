@@ -1,6 +1,7 @@
 package itu.eval_2.newapp.models.supplier;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
+
 import java.time.LocalDateTime;
 
 import lombok.Data;
@@ -8,17 +9,19 @@ import lombok.Data;
 @Data
 public class ErpNextSupplier {
     private String name;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @ErpNextDateTime
     private LocalDateTime creation;
     
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @ErpNextDateTime
     private LocalDateTime modified;
+
     private String modifiedBy;
     private String owner;
     private int docstatus;
     private int idx;
     private String namingSeries;
-    private String supplierName;
+    private String supplier_name;
     private String country;
     private String supplierGroup;
     private String supplierType;
@@ -51,7 +54,10 @@ public class ErpNextSupplier {
     private boolean preventPos;
     private boolean onHold;
     private String holdType;
+
+    @ErpNextDateTime
     private LocalDateTime releaseDate;
+
     private String userTags;
     private String comments;
     private String assign;

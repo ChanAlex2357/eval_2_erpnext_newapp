@@ -103,17 +103,16 @@
                 method:"GET"
             })
             .then(response => {
-                console.error(response.json());
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-            .then(data => {
+            .then(body => {
                 // Clear loading message
                 suppliersBody.innerHTML = '';
                 
-                if (data.length === 0) {
+                if (body.length === 0) {
                     suppliersBody.innerHTML = `
                         <tr>
                             <td colspan="2" class="loading">No suppliers found</td>
@@ -122,8 +121,10 @@
                     return;
                 }
                 
+                console.log(body);
+
                 // Populate table with suppliers
-                data.forEach(supplier => {
+                body.data.forEach(supplier => {
                     const row = document.createElement('tr');
                     
                     // Name column
