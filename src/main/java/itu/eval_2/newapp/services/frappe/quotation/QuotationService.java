@@ -18,10 +18,6 @@ public interface QuotationService {
      */
     SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException;
 
-    /**
-     * Update the price of a specific Supplier Quotation.
-     */
-    void updateQuotationPrice(UserErpNext user, String id, double grandTotal) throws ERPNextIntegrationException;
-
+    // TODO: Update or create a new item price for a supplier
     void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException;
 }

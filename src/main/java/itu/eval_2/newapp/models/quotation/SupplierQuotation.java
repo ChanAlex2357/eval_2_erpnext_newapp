@@ -1,29 +1,13 @@
 package itu.eval_2.newapp.models.quotation;
 
-import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
 import itu.eval_2.newapp.models.action.FrappeModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDateTime;
 @Data
-public class SupplierQuotation implements FrappeModel {
-    private String name;
-    private String owner;
-
-    @ErpNextDateTime
-    private LocalDateTime creation;
-
-    @ErpNextDateTime
-    private LocalDateTime modified;
-
-    @JsonProperty("modified_by")
-    private String modifiedBy;
-
-    private int docstatus;
-    private int idx;
-    private String title;
-
+@EqualsAndHashCode(callSuper = false)
+public class SupplierQuotation extends FrappeModel {
     @JsonProperty("naming_series")
     private String namingSeries;
 
