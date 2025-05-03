@@ -2,7 +2,9 @@ package itu.eval_2.newapp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import itu.eval_2.newapp.models.user.UserErpNext;
 import jakarta.servlet.http.HttpSession;
@@ -11,7 +13,8 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/orders")
 public class PurchaseOrderController {
     // TODO: afficher page list de commande
-    public String orderList(HttpSession session , Model model){
+    @GetMapping
+    public String orderList(HttpSession session , Model model , @RequestParam(required = false,name = "supplier") String supplier){
         UserErpNext user = (UserErpNext)session.getAttribute("user");
         if (user == null) {
             return "redirect:/auth/login";
