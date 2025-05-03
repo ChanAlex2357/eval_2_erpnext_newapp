@@ -27,5 +27,9 @@ public abstract class FrappeModel {
     private int idx;
     private String title;
     private String status;
+
+    @JsonProperty("naming_series")
+    private String namingSeries;
+
     abstract public void cotnrole();    
 }
