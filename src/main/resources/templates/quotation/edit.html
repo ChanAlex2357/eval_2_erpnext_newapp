@@ -84,11 +84,11 @@
                                     <span th:text="${item.warehouse}"></span>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control" th:field="*{items[__${itemStat.index}__].qty}" />
+                                    <input type="number" title="Quantite" class="form-control" th:field="*{items[__${itemStat.index}__].qty}" />
                                     <!-- <span th:text="${item.qty}">45</span> -->
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control" 
+                                    <input type="number" title="Prix Unitaire" class="form-control" 
                                            th:field="*{items[__${itemStat.index}__].rate}" 
                                            step="0.01" min="0" required>
                                 </td>
