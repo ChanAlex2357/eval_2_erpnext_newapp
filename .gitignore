@@ -34,3 +34,6 @@ build/
 
 ### Node ###
 node_modules/
+
+### custom script ###
+git-clean-branches.bat
