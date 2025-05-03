@@ -43,7 +43,6 @@ public class QuotationController {
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch quotations: " + e.getMessage());
         }
-
         return "quotation/list";
     }
 
