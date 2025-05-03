@@ -16,8 +16,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuotation> implements QuotationService {
-
-
     public ErpNextQuotationServiceImpl(ApiConfig apiConfig, RestTemplate restTemplate) {
         super(apiConfig,restTemplate);
     }
@@ -32,17 +30,12 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
         return getAllDocuments(user, filter, SupplierQuotation.class);
     }
 
-    public List<SupplierQuotation> getAllQuotations(UserErpNext user) throws ERPNextIntegrationException {
-        return getAllQuotations(user, null);
-    }
-
     @Override
     public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
         return getDocumentById(user, id, SupplierQuotation.class);
     }
 
     @Override
-
     public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException 
     {
         updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation));

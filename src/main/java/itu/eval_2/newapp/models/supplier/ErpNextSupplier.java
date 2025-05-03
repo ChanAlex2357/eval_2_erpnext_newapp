@@ -1,28 +1,18 @@
 package itu.eval_2.newapp.models.supplier;
 
 import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
+import itu.eval_2.newapp.models.action.FrappeModel;
 
 import java.time.LocalDateTime;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
-public class ErpNextSupplier {
-    private String name;
-
-    @ErpNextDateTime
-    private LocalDateTime creation;
-
-    @ErpNextDateTime
-    private LocalDateTime modified;
-
-    @JsonProperty("modified_by")
-    private String modifiedBy;
-
-    private String owner;
-    private int docstatus;
-    private int idx;
+@EqualsAndHashCode(callSuper = false)
+public class ErpNextSupplier extends FrappeModel{
 
     @JsonProperty("naming_series")
     private String namingSeries;
@@ -135,4 +125,8 @@ public class ErpNextSupplier {
 
     @JsonProperty("_liked_by")
     private String likedBy;
+
+    @Override
+    public void cotnrole() {}
+
 }
