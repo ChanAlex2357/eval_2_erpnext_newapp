@@ -69,7 +69,7 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
     public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
         try {
             String url = apiConfig.getRessourceUrl("Supplier Quotation",id);
-            log.info("Fetching quotation by ID from URL: {}", url);
+            log.debug("Fetching quotation by ID from URL: {}", url);
 
             HttpHeaders headers = createHeaders(user);
             ResponseEntity<String> response = restTemplate.exchange(

@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supplier Quotations</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
 </head>
 <body>
+    
+    <div th:replace="~{fragments/header :: header}"></div>
+
     <div class="container mt-4">
         <h1>Supplier Quotations</h1>
         
@@ -19,7 +24,7 @@
                            th:value="${filter.supplier_name}" placeholder="Enter supplier name">
                 </div>
                 <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary mt-4">Filter</button>
+                    <button type="submit" class="btn btn-info mt-4">Filter</button>
                     <button type="button" onclick="clearFilter()" class="btn btn-secondary mt-4 ms-2">Clear</a>
                 </div>
             </div>
@@ -55,7 +60,7 @@
                         </td>
                         <td>
                             <a th:href="@{/quotations/{id}(id=${quotation.name})}" class="btn btn-sm btn-info">View</a>
-                            <a th:href="@{/quotations/{id}/edit(id=${quotation.name})}" class="btn btn-sm btn-warning">Edit Price</a>
+                            <!-- <a th:href="@{/quotations/{id}/edit(id=${quotation.name})}" class="btn btn-sm btn-warning">Edit Price</a> -->
                         </td>
                     </tr>
                     <tr th:unless="${quotations != null and !quotations.isEmpty()}">
@@ -71,9 +76,12 @@
         </div>
     </div>
 
+    <!-- Include footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
     <!-- TODO: Using local api to get the quotation data -->
     <!-- TODO: Get the quotations table in js and filter locally -->
-     
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>

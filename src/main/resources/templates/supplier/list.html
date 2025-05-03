@@ -75,6 +75,8 @@
     </style>
 </head>
 <body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    
     <div class="suppliers-container">
         <h2>Suppliers List</h2>
         <table class="suppliers-table">
@@ -97,6 +99,8 @@
         </table>
     </div>
 
+    <!-- Include footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
     <script th:inline="javascript">
 
         document.addEventListener('DOMContentLoaded', function() {
