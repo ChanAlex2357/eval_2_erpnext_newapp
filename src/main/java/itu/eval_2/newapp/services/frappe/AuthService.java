@@ -1,9 +1,5 @@
 package itu.eval_2.newapp.services.frappe;
 
-import java.lang.reflect.ParameterizedType;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;

@@ -1,7 +1,6 @@
 package itu.eval_2.newapp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +32,7 @@ public class LoginController {
                               Model model) {
         // Redirect if already logged in
         if (session.getAttribute("user") != null) {
-            return "redirect:/supplier/home";
+            return "redirect:/user/profile";
         }
         
         // Add error message if present
@@ -65,13 +64,13 @@ public String processLogin(
             LoginResponse data = body.getData();
             UserErpNext user = data.getUser();
             
-            session.setAttribute("user", user);
             session.setAttribute("token", user.getAuthToken());
+            session.setAttribute("user", user);
             
             // Set session timeout (30 minutes)
             session.setMaxInactiveInterval(30 * 60);
             
-            return "redirect:/supplier/home";
+            return "redirect:/user/profile";
         } else {
             redirectAttributes.addFlashAttribute("error", 
                 body != null ? body.getMessage() : "Login failed");

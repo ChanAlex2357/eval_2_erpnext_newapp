@@ -2,6 +2,7 @@ package itu.eval_2.newapp.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Data;
 
@@ -27,8 +28,44 @@ public class ApiConfig {
         return baseUrl + method + url;
     }
 
-    public String getRessourceUrl(String url) {
-        return baseUrl + ressource + url;
+    public String getRessourceUrl(String doctype,String[] fields){
+        String uri = baseUrl + ressource +"/"+ doctype;
+
+        String fieldsStr = makeResourceFields(fields); 
+        
+        uri = UriComponentsBuilder.fromUriString(uri)
+                .queryParam("fields", fieldsStr)  // Get all fields
+                .build().toUriString();
+
+        return uri;
+    }
+    private String makeResourceFields(String[] fields){
+        if (fields == null || fields.length == 0) {
+            return "";
+        }
+
+        String fieldsStr = "[";
+
+        String suffix = ",";
+        for (int i = 0; i < fields.length; i++) {
+            String f = fields[i];
+            if (i == fields.length - 1) {
+                suffix = "";
+            }
+            fieldsStr += "\"" + f + "\""+suffix;
+        }
+
+        fieldsStr += "]";
+        return fieldsStr;
+    }
+
+    public String getRessourceUrl(String doctype) {
+        return getRessourceUrl(doctype, null);
+    }
+
+    public String getResourceWithAllFieldsUrl(String doctype){
+        String[] fields = new String[]{"*"};
+        return getRessourceUrl(doctype, fields);
     }
 
 
