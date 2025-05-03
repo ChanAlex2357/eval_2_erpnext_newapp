@@ -22,15 +22,15 @@ import java.util.List;
 
 @Service
 @Slf4j
-public abstract class FrappeService<T extends FrappeModel> {
+public abstract class FrappeCRUDService<T extends FrappeModel> {
 
     private final ApiConfig apiConfig;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    abstract String getDoctype();
+    abstract  public String getDoctype();
 
-    public FrappeService(ApiConfig apiConfig, RestTemplate restTemplate) {
+    public FrappeCRUDService(ApiConfig apiConfig, RestTemplate restTemplate) {
         this.apiConfig = apiConfig;
         this.restTemplate = restTemplate;
         this.objectMapper = new ObjectMapper()
@@ -96,7 +96,11 @@ public abstract class FrappeService<T extends FrappeModel> {
         }
     }
 
-    public void updateDocument(UserErpNext user, String id, T document) 
+    public void updateDocument(UserErpNext user, String id , T document)throws ERPNextIntegrationException {
+        updateDocument(user, id, document, document);
+    }
+
+    public void updateDocument(UserErpNext user, String id , T document , Object body) 
         throws ERPNextIntegrationException {
         try {
             // Validate the document before update
@@ -111,7 +115,7 @@ public abstract class FrappeService<T extends FrappeModel> {
             restTemplate.exchange(
                 url,
                 HttpMethod.PUT,
-                new HttpEntity<>(objectMapper.writeValueAsString(document), headers),
+                new HttpEntity<>(objectMapper.writeValueAsString(body), headers),
                 String.class
             );
         } catch (Exception e) {
@@ -121,6 +125,5 @@ public abstract class FrappeService<T extends FrappeModel> {
             );
         }
     }
-
 
 }
