@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.action.FrappeModel;
+import itu.eval_2.newapp.models.api.requests.RequestModel;
 import itu.eval_2.newapp.models.api.responses.ApiResourceResponse;
 import itu.eval_2.newapp.models.api.responses.SingletonApiResourceResponse;
 import itu.eval_2.newapp.models.filter.FrappeFilter;
@@ -96,7 +97,11 @@ public abstract class FrappeCRUDService<T extends FrappeModel> {
         }
     }
 
-    public void updateDocument(UserErpNext user, String id, T document) 
+    public void updateDocument(UserErpNext user, String id , T document)throws ERPNextIntegrationException {
+        updateDocument(user, id, document, document);
+    }
+
+    public void updateDocument(UserErpNext user, String id , T document , Object body) 
         throws ERPNextIntegrationException {
         try {
             // Validate the document before update
@@ -111,7 +116,7 @@ public abstract class FrappeCRUDService<T extends FrappeModel> {
             restTemplate.exchange(
                 url,
                 HttpMethod.PUT,
-                new HttpEntity<>(objectMapper.writeValueAsString(document), headers),
+                new HttpEntity<>(objectMapper.writeValueAsString(body), headers),
                 String.class
             );
         } catch (Exception e) {

@@ -1,23 +1,14 @@
 package itu.eval_2.newapp.services.frappe.quotation;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.api.requests.UpdateQuotationRequest;
-import itu.eval_2.newapp.models.api.responses.SingleSupplierQuotationResponse;
-import itu.eval_2.newapp.models.api.responses.SupplierQuotationListResponse;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
-import itu.eval_2.newapp.utils.http.HeadersUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -54,6 +45,6 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
 
     public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException 
     {
-
+        updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation));
     }
 }
