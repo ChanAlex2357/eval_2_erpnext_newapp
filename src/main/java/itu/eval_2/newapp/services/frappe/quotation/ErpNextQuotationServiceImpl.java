@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.config.FrappApiFilter;
+import itu.eval_2.newapp.config.FrappeApiFilterList;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.api.requests.UpdateQuotationRequest;
 import itu.eval_2.newapp.models.api.responses.SingleSupplierQuotationResponse;
 import itu.eval_2.newapp.models.api.responses.SupplierQuotationListResponse;
+import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +42,10 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
     @Override
     public List<SupplierQuotation> getAllQuotations(UserErpNext user, String supplier) throws ERPNextIntegrationException {
         try {
-            FrappApiFilter apiFilter = null;
 
-            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation");
+            FrappeApiFilterList filterList = new SupplierQuotationFilter(supplier).getFilters();
+
+            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation",filterList.getFilters());
             log.debug("Fetching all quotations from URL: {}", url);
 
             HttpHeaders headers = createHeaders(user);
@@ -57,6 +60,10 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
         } catch (RestClientException e) {
             throw new ERPNextIntegrationException("Failed to fetch quotations from ERPNext : "+e.getMessage(), e);
         }
+    }
+
+    public List<SupplierQuotation> getAllQuotations(UserErpNext user) throws ERPNextIntegrationException {
+        return getAllQuotations(user, null);
     }
 
     @Override

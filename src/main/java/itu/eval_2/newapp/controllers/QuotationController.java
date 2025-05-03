@@ -40,8 +40,8 @@ public class QuotationController {
         }
 
         try {
-            List<SupplierQuotation> quotations = quotationService.getAllQuotations(user);
-            log.info("Quotation List",quotations); 
+            List<SupplierQuotation> quotations = quotationService.getAllQuotations(user,supplier);
+            log.info("Quotation List",quotations);
             model.addAttribute("quotations", quotations);
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch quotations: " + e.getMessage());
