@@ -20,6 +20,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- This would be populated dynamically from the server -->
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.name}">QTN-0001</td>
+                        <td>
+                            <span th:class="${order.status == 'Draft' ? 'badge bg-warning' : 
+                                            order.status == 'Submitted' ? 'badge bg-primary' : 
+                                            order.status == 'Cancelled' ? 'badge bg-danger' : 'badge bg-success'}"
+                                  th:text="${order.status}">Draft</span>
+                        </td>
+                    </tr>
+                    <tr th:unless="${orders != null and !orders.isEmpty()}">
+                        <td colspan="7" class="text-center">No purchase order found</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
