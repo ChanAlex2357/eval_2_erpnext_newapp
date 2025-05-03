@@ -59,7 +59,7 @@ public class QuotationController {
             model.addAttribute("updateForm", new QuotationUpdateForm(quotation.getGrandTotal()));
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch quotation: " + e.getMessage());
-            return "redirect:/quotations";
+            return "redirect:/edit";
         }
 
         return "quotation/edit";

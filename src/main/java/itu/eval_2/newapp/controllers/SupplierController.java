@@ -16,21 +16,15 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/suppliers")
 public class SupplierController {
-    @Autowired
-    private ApiConfig apiConfig;
-
     @GetMapping
     public String index(HttpServletRequest request,HttpSession session,Model model){
         UserErpNext u = (UserErpNext) session.getAttribute("user");
         if (u == null) {
             return "redirect:/auth/login";
         }
-
         // Set suppplier filter if needed
         String supplier_name = request.getParameter("supplier");
         model.addAttribute("supplier_name", supplier_name);
-
-        model.addAttribute("supplier_uri", apiConfig.getRessourceUrl("Supplier"));
         return "/supplier/list";
     }
 
