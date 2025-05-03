@@ -29,7 +29,11 @@ public class QuotationController {
     }
 
     @GetMapping
-    public String index(HttpSession session, Model model) {
+    public String index(
+        HttpSession session, 
+        Model model,
+        @RequestParam(required = false,name = "supplier") String supplier
+    ) {
         UserErpNext user = (UserErpNext) session.getAttribute("user");
         if (user == null) {
             return "redirect:/auth/login";

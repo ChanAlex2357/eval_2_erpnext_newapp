@@ -5,17 +5,17 @@ import lombok.Data;
 @Data
 public class FrappApiFilter {
     private String fieldname;
-    private String condition;
+    private String operator;
     private String vaule;
     
-    public FrappApiFilter(String fieldname, String condition, String value){
+    public FrappApiFilter(String fieldname, String opt, String value){
         setFieldname(fieldname);
-        setCondition(condition);
+        setOperator(opt);
         setVaule(value);
     }
 
     public String getFilterStr(){
-        return "[\""+getFieldname()+"\", \""+getCondition()+"\", \""+getVaule()+"\" ]";
+        return "[\""+getFieldname()+"\", \""+getOperator()+"\", \""+getVaule()+"\" ]";
          // "+get+"
     }
 }
