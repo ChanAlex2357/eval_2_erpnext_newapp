@@ -24,9 +24,10 @@
                     <tr th:each="order : ${orders}">
                         <td th:text="${order.name}">QTN-0001</td>
                         <td>
-                            <span th:class="${order.status == 'Draft' ? 'badge bg-warning' : 
-                                            order.status == 'Submitted' ? 'badge bg-primary' : 
-                                            order.status == 'Cancelled' ? 'badge bg-danger' : 'badge bg-success'}"
+                            <span th:class="${order.status == 'Draft' ? 'badge bg-danger' : 
+                                            order.status == 'To Receive and Bill' ? 'badge bg-warning' : 
+                                            order.status == 'To Bill' ? 'badge bg-warning' : 
+                                            order.status == 'To Receive' ? 'badge bg-warning' : 'badge bg-success'}"
                                   th:text="${order.status}">Draft</span>
                         </td>
                     </tr>
