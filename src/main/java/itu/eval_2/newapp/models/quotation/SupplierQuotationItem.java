@@ -1,10 +1,12 @@
 package itu.eval_2.newapp.models.quotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import itu.eval_2.newapp.models.action.FrappeModel;
 import lombok.Data;
 
 @Data
-public class SupplierQuotationItem {
+public class SupplierQuotationItem implements FrappeModel{
     private String name;
 
     @JsonProperty("item_code")
@@ -33,4 +35,15 @@ public class SupplierQuotationItem {
 
     @JsonProperty("parent")
     private String parentQuotation;
+
+    private int idx;
+
+    @Override
+    public void cotnrole() {
+        updateAmount();
+    }
+
+    private void updateAmount(){
+        setAmount( getQty() * getRate());
+    }
 }

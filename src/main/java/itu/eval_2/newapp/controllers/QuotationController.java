@@ -66,25 +66,19 @@ public class QuotationController {
     }
 
     @PostMapping("/{id}/update")
-    public String updateQuotationPrice(
+    public String updateQuotation(
             @PathVariable("id") String id,
-            @ModelAttribute("updateForm") @Validated QuotationUpdateForm updateForm,
-            BindingResult bindingResult,
+            @ModelAttribute("quotation") SupplierQuotation quotation,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
-        
         UserErpNext user = (UserErpNext) session.getAttribute("user");
         if (user == null) {
             return "redirect:/auth/login";
         }
 
-        if (bindingResult.hasErrors()) {
-            return "quotation/edit";
-        }
-
         try {
-            quotationService.updateQuotationPrice(user, id, updateForm.getGrandTotal());
-            redirectAttributes.addFlashAttribute("success", "Quotation price updated successfully");
+            quotationService.updateQuotation(user, id, quotation);
+            redirectAttributes.addFlashAttribute("success", "Quotation updated successfully.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to update quotation: " + e.getMessage());
         }

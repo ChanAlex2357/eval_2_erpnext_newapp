@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.models.api.requests.UpdateQuotationRequest;
 import itu.eval_2.newapp.models.api.responses.SingleSupplierQuotationResponse;
 import itu.eval_2.newapp.models.api.responses.SupplierQuotationListResponse;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
@@ -98,6 +99,32 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
             }
         } catch (RestClientException e) {
             throw new ERPNextIntegrationException("Failed to update quotation in ERPNext", e);
+        }
+    }
+
+    @Override
+    public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException {
+        try {
+            // Controle the data 
+            quotation.cotnrole();
+
+            String url = apiConfig.getRessourceUrl("Supplier Quotation",id);
+            log.info("Updating quotation at URL: {}", url);
+
+            HttpHeaders headers = createHeaders(user);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writeValueAsString(new UpdateQuotationRequest(quotation));
+
+            restTemplate.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(requestBody, headers),
+                String.class
+            );
+        } catch (Exception e) {
+            throw new ERPNextIntegrationException("Failed to update quotation: " + e.getMessage(), e);
         }
     }
 

@@ -21,4 +21,6 @@ public interface QuotationService {
      * Update the price of a specific Supplier Quotation.
      */
     void updateQuotationPrice(UserErpNext user, String id, double grandTotal) throws ERPNextIntegrationException;
+
+    void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException;
 }

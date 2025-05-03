@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${quotation.quotationNumber + ' - Edit Quotation'}">Edit Quotation</title>
+    <title th:text="${'Edit Quotation - '+ quotation.name}">Edit Quotation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .form-readonly {
@@ -13,7 +13,7 @@
 <body>
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Edit Quotation <p th-text="${quotation.name}"></p></h1>
+            <h1>Edit Quotation</h1>
             <a th:href="@{/quotations}" class="btn btn-outline-secondary">Back to List</a>
         </div>
 
@@ -30,12 +30,12 @@
         <div class="card">
             <div class="card-body">
                 <form th:action="@{/quotations/{id}/update(id=${quotation.name})}" 
-                      th:object="${updateForm}" method="post">
+                      th:object="${quotation}" method="post">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="quotationNumber" class="form-label">Quotation Number</label>
+                            <label for="quotationNumber" class="form-label">Id</label>
                             <input type="text" class="form-control form-readonly" id="quotationNumber" 
-                                   th:value="${quotation.quotationNumber}" readonly>
+                                   th:value="${quotation.name}" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="supplierName" class="form-label">Supplier Name</label>
@@ -43,7 +43,7 @@
                                    th:value="${quotation.supplierName}" readonly>
                         </div>
                     </div>
-
+        
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="status" class="form-label">Status</label>
@@ -56,27 +56,60 @@
                                    th:value="${quotation.validTill}" readonly>
                         </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="grandTotal" class="form-label">Grand Total</label>
-                        <div class="input-group">
-                            <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="grandTotal" 
-                                   th:field="*{grandTotal}" step="0.01" min="0" required>
-                        </div>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('grandTotal')}">
-                            Please provide a valid amount
-                        </div>
-                    </div>
-
+        
+                    <h2>Items</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item Code</th>
+                                <th>Item Name</th>
+                                <th>Entrepot</th>
+                                <th>Quantity</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item, itemStat : ${quotation.items}">
+                                <td>
+                                    <input type="hidden" th:field="*{items[__${itemStat.index}__].itemCode}" />
+                                    <span th:text="${item.itemCode}">SKU001</span>
+                                </td>
+                                <td>
+                                    <input type="hidden" th:field="*{items[__${itemStat.index}__].itemName}" />
+                                    <span th:text="${item.itemName}">T-shirt</span>
+                                </td>
+                                <td>
+                                    <input type="hidden" th:field="*{items[__${itemStat.index}__].warehouse}">
+                                    <span th:text="${item.warehouse}"></span>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" th:field="*{items[__${itemStat.index}__].qty}" />
+                                    <!-- <span th:text="${item.qty}">45</span> -->
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" 
+                                           th:field="*{items[__${itemStat.index}__].rate}" 
+                                           step="0.01" min="0" required>
+                                </td>
+                                <td th:text="${'$' + #numbers.formatDecimal(item.amount, 1, 2)}">$180.00</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-end fw-bold">Grand Total:</td>
+                                <td class="fw-bold" th:text="${'$' + #numbers.formatDecimal(quotation.grandTotal, 1, 2)}">$1,000.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+        
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="submit" class="btn btn-primary me-md-2">Update Price</button>
+                        <button type="submit" class="btn btn-primary me-md-2">Update Rates</button>
                         <a th:href="@{/quotations}" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
