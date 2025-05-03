@@ -28,45 +28,62 @@ public class ApiConfig {
         return baseUrl + method + url;
     }
 
-    public String getRessourceUrl(String doctype,String[] fields){
+    private String makeRessourceFiters(FrappApiFilter[] filters) {
+        String filtersStr = "[";
+ 
+        String suffix = ",";
+ 
+         for (int i = 0; i < filters.length; i++) {
+             if (i == filters.length - 1) {
+                 suffix = "";
+             }
+             filtersStr += filters[i].getFilterStr()+suffix;    
+        }
+ 
+        filtersStr += "]";
+        return filtersStr;
+     }
+ 
+     private String makeResourceFields(String[] fields){
+         String fieldsStr = "[";
+ 
+         String suffix = ",";
+         for (int i = 0; i < fields.length; i++) {
+             String f = fields[i];
+             if (i == fields.length - 1) {
+                 suffix = "";
+             }
+             fieldsStr += "\"" + f + "\""+suffix;
+         }
+ 
+         fieldsStr += "]";
+         return fieldsStr;
+     }
+ 
+    public String getRessourceUrl(String doctype,String[] fields, FrappApiFilter[] filters ){
         String uri = baseUrl + ressource +"/"+ doctype;
 
         String fieldsStr = makeResourceFields(fields); 
-        
+        String filterSrt = makeRessourceFiters(filters);        
         uri = UriComponentsBuilder.fromUriString(uri)
                 .queryParam("fields", fieldsStr)  // Get all fields
+                .queryParam("filters", filterSrt)
                 .build().toUriString();
 
         return uri;
     }
-    private String makeResourceFields(String[] fields){
-        if (fields == null || fields.length == 0) {
-            return "";
-        }
-
-        String fieldsStr = "[";
-
-        String suffix = ",";
-        for (int i = 0; i < fields.length; i++) {
-            String f = fields[i];
-            if (i == fields.length - 1) {
-                suffix = "";
-            }
-            fieldsStr += "\"" + f + "\""+suffix;
-        }
-
-        fieldsStr += "]";
-        return fieldsStr;
-    }
 
     public String getRessourceUrl(String doctype) {
-        return getRessourceUrl(doctype, null);
+        return getRessourceUrl(doctype, null,null);
     }
 
+    public String getResourceWithAllFieldsUrl(String doctype,FrappApiFilter[] filters){
+        String[] fields = new String[]{"*"};
+        return getRessourceUrl(doctype, fields,filters);
+    }
+    
     public String getResourceWithAllFieldsUrl(String doctype){
         String[] fields = new String[]{"*"};
-        return getRessourceUrl(doctype, fields);
+        return getRessourceUrl(doctype, fields,null);
     }
-
-
 }

@@ -59,8 +59,8 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
     @Override
     public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
         try {
-            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation") + "/" + id;
-            log.debug("Fetching quotation by ID from URL: {}", url);
+            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation");
+            log.info("Fetching quotation by ID from URL: {}", url);
 
             HttpHeaders headers = createHeaders(user);
             ResponseEntity<String> response = restTemplate.exchange(
