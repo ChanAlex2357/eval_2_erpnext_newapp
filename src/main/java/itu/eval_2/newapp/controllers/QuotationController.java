@@ -1,5 +1,6 @@
 package itu.eval_2.newapp.controllers;
 
+import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.quotation.QuotationService;
@@ -40,9 +41,10 @@ public class QuotationController {
         }
 
         try {
-            List<SupplierQuotation> quotations = quotationService.getAllQuotations(user,supplier);
-            log.info("Quotation List",quotations);
+            SupplierQuotationFilter filter = new SupplierQuotationFilter(supplier);
+            List<SupplierQuotation> quotations = quotationService.getAllQuotations(user,filter);
             model.addAttribute("quotations", quotations);
+            model.addAttribute("filter", filter);
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch quotations: " + e.getMessage());
         }

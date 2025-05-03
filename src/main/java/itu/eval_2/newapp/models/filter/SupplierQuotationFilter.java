@@ -15,8 +15,8 @@ public class SupplierQuotationFilter implements FrappeFilter{
     public FrappeApiFilterList getFilters() {
         return new FrappeApiFilterList(
                 new String[]{"supplier_name"},
-                new String[]{"="},
-                new String[]{getSupplier_name()}
+                new String[]{"like"},
+                new String[]{"%"+getSupplier_name()+"%"}
             );
     }
 }

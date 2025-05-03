@@ -4,18 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import lombok.val;
 
 @Data
 public class FrappeApiFilterList {
     private FrappApiFilter[] filters;
     public FrappeApiFilterList(String[] fieldnames,String[] operators,String[] values){
         List<FrappApiFilter> filters = new ArrayList<>();
-
+        String current_value = null;
         for (int i = 0; i < fieldnames.length; i++) {
-            if (values[i] == null || values[i] == "") {
+            current_value = values[i];
+            // check null
+            if (current_value == null || current_value == "") {
                 continue;
             }
-            filters.add( new FrappApiFilter(fieldnames[i], operators[i], values[i]));
+            // check like null
+            if (current_value.equals("%null%") || current_value.equals("%%")) {
+                continue;
+            }
+            filters.add( new FrappApiFilter(fieldnames[i], operators[i], current_value));
         }
         
         setFilters( filters.toArray(new FrappApiFilter[0]));   

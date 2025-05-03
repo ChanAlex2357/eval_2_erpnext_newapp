@@ -157,24 +157,25 @@
                         const actionsDiv = document.createElement('div');
                         actionsDiv.className = 'action-buttons';
 
-                        // View Orders button
-                        const viewBtn = document.createElement('button');
-                        viewBtn.className = 'btn btn-view';
-                        viewBtn.textContent = 'View Orders';
-                        viewBtn.onclick = function() {
-                            window.location.href = `/supplier/${supplier.name}/orders`;
-                        };
-
+                        
                         // View Quotes button
                         const quotesBtn = document.createElement('button');
                         quotesBtn.className = 'btn btn-quotes';
                         quotesBtn.textContent = 'View Quotes';
                         quotesBtn.onclick = function() {
-                            window.location.href = `/quotations`;
+                            window.location.href = `/quotations?supplier=${supplier.name}`;
                         };
-
-                        actionsDiv.appendChild(viewBtn);
+                        
+                        // View Orders button
+                        const viewBtn = document.createElement('button');
+                        viewBtn.className = 'btn btn-view';
+                        viewBtn.textContent = 'View Orders';
+                        viewBtn.onclick = function() {
+                            window.location.href = `/supplier/orders?supplier=${supplier.name}`;
+                        };
+                        
                         actionsDiv.appendChild(quotesBtn);
+                        actionsDiv.appendChild(viewBtn);
                         actionsCell.appendChild(actionsDiv);
 
                         row.appendChild(nameCell);

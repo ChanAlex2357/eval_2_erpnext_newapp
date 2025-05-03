@@ -40,14 +40,13 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
     }
 
     @Override
-    public List<SupplierQuotation> getAllQuotations(UserErpNext user, String supplier) throws ERPNextIntegrationException {
+    public List<SupplierQuotation> getAllQuotations(UserErpNext user, SupplierQuotationFilter filter) throws ERPNextIntegrationException {
         try {
+            // Buil Url
+            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation",filter.getFilters().getFilters());
+            log.info("Fetching all quotations from URL: {}", url);
 
-            FrappeApiFilterList filterList = new SupplierQuotationFilter(supplier).getFilters();
-
-            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation",filterList.getFilters());
-            log.debug("Fetching all quotations from URL: {}", url);
-
+            // Build Http call
             HttpHeaders headers = createHeaders(user);
             ResponseEntity<String> response = restTemplate.exchange(
                 url,
@@ -55,7 +54,7 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
                 new HttpEntity<>(headers),
                 String.class
             );
-
+            // Parse Result
             return parseQuotationList(response.getBody());
         } catch (RestClientException e) {
             throw new ERPNextIntegrationException("Failed to fetch quotations from ERPNext : "+e.getMessage(), e);
