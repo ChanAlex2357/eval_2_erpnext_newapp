@@ -75,6 +75,8 @@
     </style>
 </head>
 <body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    
     <div class="suppliers-container">
         <h2>Suppliers List</h2>
         <table class="suppliers-table">
@@ -97,6 +99,8 @@
         </table>
     </div>
 
+    <!-- Include footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
     <script th:inline="javascript">
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -157,24 +161,25 @@
                         const actionsDiv = document.createElement('div');
                         actionsDiv.className = 'action-buttons';
 
-                        // View Orders button
-                        const viewBtn = document.createElement('button');
-                        viewBtn.className = 'btn btn-view';
-                        viewBtn.textContent = 'View Orders';
-                        viewBtn.onclick = function() {
-                            window.location.href = `/supplier/${supplier.name}/orders`;
-                        };
-
+                        
                         // View Quotes button
                         const quotesBtn = document.createElement('button');
                         quotesBtn.className = 'btn btn-quotes';
                         quotesBtn.textContent = 'View Quotes';
                         quotesBtn.onclick = function() {
-                            window.location.href = `/supplier/${supplier.name}/quotes`;
+                            window.location.href = `/quotations?supplier=${supplier.name}`;
                         };
-
-                        actionsDiv.appendChild(viewBtn);
+                        
+                        // View Orders button
+                        const viewBtn = document.createElement('button');
+                        viewBtn.className = 'btn btn-view';
+                        viewBtn.textContent = 'View Orders';
+                        viewBtn.onclick = function() {
+                            window.location.href = `/supplier/orders?supplier=${supplier.name}`;
+                        };
+                        
                         actionsDiv.appendChild(quotesBtn);
+                        actionsDiv.appendChild(viewBtn);
                         actionsCell.appendChild(actionsDiv);
 
                         row.appendChild(nameCell);

@@ -41,7 +41,6 @@ public class SupplierApiController {
                     "message", "Authentication required"
                 ));
         }
-
         try {
             // 2. Fetch suppliers
             log.info("Fetching suppliers for user: {}", user.getUsername());

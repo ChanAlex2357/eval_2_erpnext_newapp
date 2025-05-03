@@ -1,13 +1,13 @@
 package itu.eval_2.newapp.models.quotation;
 
 import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
+import itu.eval_2.newapp.models.action.FrappeModel;
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
-
 @Data
-public class SupplierQuotation {
+public class SupplierQuotation implements FrappeModel {
     private String name;
     private String owner;
 
@@ -213,6 +213,12 @@ public class SupplierQuotation {
 
     private String opportunity;
 
-    // Getters and Setters
-    // ...
+    private SupplierQuotationItem[] items;
+
+    @Override
+    public void cotnrole() {
+        for ( SupplierQuotationItem item : items) {
+            item.cotnrole();
+        }
+    }
 }

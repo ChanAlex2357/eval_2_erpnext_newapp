@@ -4,4 +4,8 @@ public class ERPNextIntegrationException extends Exception {
     public ERPNextIntegrationException(String message , Throwable e){
         super(message, e);
     }
+
+    public ERPNextIntegrationException(String message){
+        super(message);
+    }
 }

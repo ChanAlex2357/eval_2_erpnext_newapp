@@ -28,22 +28,28 @@ public class ApiConfig {
         return baseUrl + method + url;
     }
 
-    public String getRessourceUrl(String doctype,String[] fields){
-        String uri = baseUrl + ressource +"/"+ doctype;
-
-        String fieldsStr = makeResourceFields(fields); 
-        
-        uri = UriComponentsBuilder.fromUriString(uri)
-                .queryParam("fields", fieldsStr)  // Get all fields
-                .build().toUriString();
-
-        return uri;
-    }
-    private String makeResourceFields(String[] fields){
-        if (fields == null || fields.length == 0) {
-            return "";
+    private String makeRessourceFiters(FrappApiFilter[] filters) {
+        if (filters == null || filters.length == 0) {
+            return null;
         }
-
+        String filtersStr = "[";
+        String suffix = ",";
+ 
+         for (int i = 0; i < filters.length; i++) {
+            if (i == filters.length - 1) {
+                suffix = "";
+            }
+            filtersStr += filters[i].getFilterStr()+suffix;    
+        }
+ 
+        filtersStr += "]";
+        return filtersStr;
+     }
+ 
+     private String makeResourceFields(String[] fields){
+        if (fields == null || fields.length == 0) {
+            return null;
+        }
         String fieldsStr = "[";
 
         String suffix = ",";
@@ -57,16 +63,41 @@ public class ApiConfig {
 
         fieldsStr += "]";
         return fieldsStr;
+     }
+ 
+    public String getRessourceUrl(String doctype,String id,String[] fields, FrappApiFilter[] filters ){
+        String uri = baseUrl + ressource +"/"+ doctype ;
+
+        if (id != null && id != "") {
+            uri += "/"+id;
+        }
+
+        String fieldsStr = makeResourceFields(fields); 
+        String filterSrt = makeRessourceFiters(filters);       
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(uri);
+        
+        if (fieldsStr != null || fieldsStr != "") {
+            uriComponentsBuilder.queryParam("fields", fieldsStr);
+        }
+        
+        if (filterSrt != null || filterSrt  != "" ) {
+            uriComponentsBuilder.queryParam("filters", filterSrt);
+        }
+        
+        uri = uriComponentsBuilder.build().toUriString();
+
+        return uri;
     }
 
-    public String getRessourceUrl(String doctype) {
-        return getRessourceUrl(doctype, null);
+    public String getResourceWithAllFieldsUrl(String doctype,FrappApiFilter[] filters){
+        String[] fields = new String[]{"*"};
+        return getRessourceUrl(doctype,null, fields,filters);
+    }
+    public String getRessourceUrl(String doctype,String id) {
+        return getRessourceUrl(doctype,id,null,null);
     }
 
     public String getResourceWithAllFieldsUrl(String doctype){
-        String[] fields = new String[]{"*"};
-        return getRessourceUrl(doctype, fields);
+        return getResourceWithAllFieldsUrl(doctype,null);
     }
-
-
 }
