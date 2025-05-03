@@ -22,15 +22,15 @@ import java.util.List;
 
 @Service
 @Slf4j
-public abstract class FrappeService<T extends FrappeModel> {
+public abstract class FrappeCRUDService<T extends FrappeModel> {
 
     private final ApiConfig apiConfig;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    abstract String getDoctype();
+    abstract  public String getDoctype();
 
-    public FrappeService(ApiConfig apiConfig, RestTemplate restTemplate) {
+    public FrappeCRUDService(ApiConfig apiConfig, RestTemplate restTemplate) {
         this.apiConfig = apiConfig;
         this.restTemplate = restTemplate;
         this.objectMapper = new ObjectMapper()

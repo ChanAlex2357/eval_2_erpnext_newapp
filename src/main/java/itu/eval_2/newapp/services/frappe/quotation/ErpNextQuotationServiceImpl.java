@@ -12,51 +12,33 @@ import itu.eval_2.newapp.models.api.responses.SupplierQuotationListResponse;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
+import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
+import itu.eval_2.newapp.utils.http.HeadersUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @Slf4j
-public class ErpNextQuotationServiceImpl implements QuotationService {
+public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuotation> implements QuotationService {
 
-    private final ApiConfig apiConfig;
-    private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
 
     public ErpNextQuotationServiceImpl(ApiConfig apiConfig, RestTemplate restTemplate) {
-        this.apiConfig = apiConfig;
-        this.restTemplate = restTemplate;
-        this.objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        super(apiConfig,restTemplate);
+    }
+
+    @Override
+    public String getDoctype(){
+        return "Supplier Quotation";
     }
 
     @Override
     public List<SupplierQuotation> getAllQuotations(UserErpNext user, SupplierQuotationFilter filter) throws ERPNextIntegrationException {
-        try {
-            // Buil Url
-            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation",filter.getFilters().getFilters());
-            log.info("Fetching all quotations from URL: {}", url);
-
-            // Build Http call
-            HttpHeaders headers = createHeaders(user);
-            ResponseEntity<String> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                new HttpEntity<>(headers),
-                String.class
-            );
-            // Parse Result
-            return parseQuotationList(response.getBody());
-        } catch (RestClientException e) {
-            throw new ERPNextIntegrationException("Failed to fetch quotations from ERPNext : "+e.getMessage(), e);
-        }
+        return getAllDocuments(user, filter, SupplierQuotation.class);
     }
 
     public List<SupplierQuotation> getAllQuotations(UserErpNext user) throws ERPNextIntegrationException {
@@ -65,97 +47,13 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
 
     @Override
     public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
-        try {
-            String url = apiConfig.getResourceUrl("Supplier Quotation",id);
-            log.debug("Fetching quotation by ID from URL: {}", url);
-
-            HttpHeaders headers = createHeaders(user);
-            ResponseEntity<String> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                new HttpEntity<>(headers),
-                String.class
-            );
-            return parseSingleQuotation(response.getBody()).getData();
-        } catch (RestClientException e) {
-            throw new ERPNextIntegrationException("Failed to fetch quotation by ID from ERPNext", e);
-        }
+        return getDocumentById(user, id, SupplierQuotation.class);
     }
 
     @Override
-    public void updateQuotationPrice(UserErpNext user, String id, double grandTotal) throws ERPNextIntegrationException {
-        try {
-            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation") + "/" + id;
-            log.debug("Updating quotation price at URL: {}", url);
 
-            HttpHeaders headers = createHeaders(user);
-            headers.setContentType(MediaType.APPLICATION_JSON);
+    public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException 
+    {
 
-            String requestBody = String.format("{\"grand_total\": %.2f}", grandTotal);
-            log.debug("Request body for update: {}", requestBody);
-
-            ResponseEntity<String> response = restTemplate.exchange(
-                url,
-                HttpMethod.PUT,
-                new HttpEntity<>(requestBody, headers),
-                String.class
-            );
-
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                throw new ERPNextIntegrationException("Failed to update quotation. Status: " + response.getStatusCode());
-            }
-        } catch (RestClientException e) {
-            throw new ERPNextIntegrationException("Failed to update quotation in ERPNext", e);
-        }
-    }
-
-    @Override
-    public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException {
-        try {
-            // Controle the data 
-            quotation.cotnrole();
-
-            String url = apiConfig.getResourceUrl("Supplier Quotation",id);
-            log.info("Updating quotation at URL: {}", url);
-
-            HttpHeaders headers = createHeaders(user);
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            ObjectMapper mapper = new ObjectMapper();
-            String requestBody = mapper.writeValueAsString(new UpdateQuotationRequest(quotation));
-
-            restTemplate.exchange(
-                url,
-                HttpMethod.PUT,
-                new HttpEntity<>(requestBody, headers),
-                String.class
-            );
-        } catch (Exception e) {
-            throw new ERPNextIntegrationException("Failed to update quotation: " + e.getMessage(), e);
-        }
-    }
-
-    private HttpHeaders createHeaders(UserErpNext user) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", user.getAuthToken());
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        return headers;
-    }
-
-    private List<SupplierQuotation> parseQuotationList(String json) throws ERPNextIntegrationException {
-        try {
-            SupplierQuotationListResponse quotations = objectMapper.readValue(json, SupplierQuotationListResponse.class);
-            return quotations.getData();
-        } catch (JsonProcessingException e) {
-            throw new ERPNextIntegrationException("Failed to parse quotation list", e);
-        }
-    }
-
-    private SingleSupplierQuotationResponse parseSingleQuotation(String json) throws ERPNextIntegrationException {
-        try {
-            return objectMapper.readValue(json, SingleSupplierQuotationResponse.class);
-        } catch (JsonProcessingException e) {
-            throw new ERPNextIntegrationException("Failed to parse single quotation", e);
-        }
     }
 }
