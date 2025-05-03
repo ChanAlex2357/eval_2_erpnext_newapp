@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.models.api.responses.SingleSupplierQuotationResponse;
 import itu.eval_2.newapp.models.api.responses.SupplierQuotationListResponse;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -27,7 +27,6 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    @Autowired
     public ErpNextQuotationServiceImpl(ApiConfig apiConfig, RestTemplate restTemplate) {
         this.apiConfig = apiConfig;
         this.restTemplate = restTemplate;
@@ -59,7 +58,7 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
     @Override
     public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
         try {
-            String url = apiConfig.getResourceWithAllFieldsUrl("Supplier Quotation");
+            String url = apiConfig.getRessourceUrl("Supplier Quotation",id);
             log.info("Fetching quotation by ID from URL: {}", url);
 
             HttpHeaders headers = createHeaders(user);
@@ -69,8 +68,7 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
                 new HttpEntity<>(headers),
                 String.class
             );
-
-            return parseSingleQuotation(response.getBody());
+            return parseSingleQuotation(response.getBody()).getData();
         } catch (RestClientException e) {
             throw new ERPNextIntegrationException("Failed to fetch quotation by ID from ERPNext", e);
         }
@@ -119,9 +117,9 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
         }
     }
 
-    private SupplierQuotation parseSingleQuotation(String json) throws ERPNextIntegrationException {
+    private SingleSupplierQuotationResponse parseSingleQuotation(String json) throws ERPNextIntegrationException {
         try {
-            return objectMapper.readValue(json, SupplierQuotation.class);
+            return objectMapper.readValue(json, SingleSupplierQuotationResponse.class);
         } catch (JsonProcessingException e) {
             throw new ERPNextIntegrationException("Failed to parse single quotation", e);
         }
