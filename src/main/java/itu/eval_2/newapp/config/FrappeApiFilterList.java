@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
-import lombok.val;
 
 @Data
 public class FrappeApiFilterList {
