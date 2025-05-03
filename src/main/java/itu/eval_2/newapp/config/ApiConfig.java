@@ -16,11 +16,11 @@ public class ApiConfig {
     private String ressource;
     private int timeout;
 
-    public String getRessourceUrl() {
+    public String getResourceBaseUrl() {
         return baseUrl + ressource;
     }
 
-    public String getMethodUrl() {
+    public String getMethodBaseUrl() {
         return baseUrl + method;
     }
 
@@ -46,7 +46,7 @@ public class ApiConfig {
         return filtersStr;
      }
  
-     private String makeResourceFields(String[] fields){
+    private String makeResourceFields(String[] fields){
         if (fields == null || fields.length == 0) {
             return null;
         }
@@ -65,7 +65,9 @@ public class ApiConfig {
         return fieldsStr;
      }
  
-    public String getRessourceUrl(String doctype,String id,String[] fields, FrappApiFilter[] filters ){
+    
+    // *********** RESOURCES URLS ****************
+    public String getResourceUrl(String doctype,String id,String[] fields, FrappApiFilter[] filters ){
         String uri = baseUrl + ressource +"/"+ doctype ;
 
         if (id != null && id != "") {
@@ -91,10 +93,11 @@ public class ApiConfig {
 
     public String getResourceWithAllFieldsUrl(String doctype,FrappApiFilter[] filters){
         String[] fields = new String[]{"*"};
-        return getRessourceUrl(doctype,null, fields,filters);
+        return getResourceUrl(doctype,null, fields,filters);
     }
-    public String getRessourceUrl(String doctype,String id) {
-        return getRessourceUrl(doctype,id,null,null);
+    
+    public String getResourceUrl(String doctype,String id) {
+        return getResourceUrl(doctype,id,null,null);
     }
 
     public String getResourceWithAllFieldsUrl(String doctype){

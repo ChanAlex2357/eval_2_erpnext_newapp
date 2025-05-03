@@ -66,7 +66,7 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
     @Override
     public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
         try {
-            String url = apiConfig.getRessourceUrl("Supplier Quotation",id);
+            String url = apiConfig.getResourceUrl("Supplier Quotation",id);
             log.debug("Fetching quotation by ID from URL: {}", url);
 
             HttpHeaders headers = createHeaders(user);
@@ -115,7 +115,7 @@ public class ErpNextQuotationServiceImpl implements QuotationService {
             // Controle the data 
             quotation.cotnrole();
 
-            String url = apiConfig.getRessourceUrl("Supplier Quotation",id);
+            String url = apiConfig.getResourceUrl("Supplier Quotation",id);
             log.info("Updating quotation at URL: {}", url);
 
             HttpHeaders headers = createHeaders(user);
