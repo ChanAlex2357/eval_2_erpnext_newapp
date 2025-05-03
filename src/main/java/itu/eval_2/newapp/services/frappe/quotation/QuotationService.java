@@ -11,4 +11,14 @@ public interface QuotationService {
      * Fetch all supplier quotations from ERPNext.
      */
     List<SupplierQuotation> getAllQuotations(UserErpNext user) throws ERPNextIntegrationException;
+
+    /**
+     * Fetch a specific Supplier Quotation by ID.
+     */
+    SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException;
+
+    /**
+     * Update the price of a specific Supplier Quotation.
+     */
+    void updateQuotationPrice(UserErpNext user, String id, double grandTotal) throws ERPNextIntegrationException;
 }

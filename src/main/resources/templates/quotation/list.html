@@ -54,7 +54,8 @@
                                   th:text="${quotation.status}">Draft</span>
                         </td>
                         <td>
-                            <a th:href="${supplier_uri + '/' + quotation.name}" class="btn btn-sm btn-info">View</a>
+                            <a th:href="@{/quotations/{id}(id=${quotation.name})}" class="btn btn-sm btn-info">View</a>
+                            <a th:href="@{/quotations/{id}/edit(id=${quotation.name})}" class="btn btn-sm btn-warning">Edit Price</a>
                         </td>
                     </tr>
                     <tr th:unless="${quotations != null and !quotations.isEmpty()}">
@@ -62,6 +63,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <p th:text="${error}"></p>
+            </div>
         </div>
     </div>
 
