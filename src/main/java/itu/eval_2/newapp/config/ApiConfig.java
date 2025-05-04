@@ -25,8 +25,8 @@ public class ApiConfig {
         return baseUrl + method;
     }
 
-    public String getMethodUrl(String url) {
-        return baseUrl + method + url;
+    public String getMethodUrl(String methodPath) {
+        return baseUrl + method + "/" + methodPath;
     }
 
     private String makeRessourceFiters(FrappApiFilter[] filters) {

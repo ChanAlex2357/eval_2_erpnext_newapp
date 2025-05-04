@@ -38,11 +38,11 @@ public class PaymentController {
         }
 
         try {
-            // TODO: get the invoice
             PurchaseInvoice invoice = invoiceService.getInvoinceById(user, id);
-            // Generate the Payment
-            PaymentEntry invoicePayment = paymentService.generatePayment(invoice);
+
+            PaymentEntry invoicePayment = paymentService.generatePayment(user, invoice);
             log.info(" = = = PAYMENT GENERATED = = = =",invoicePayment);
+            
             model.addAttribute("paymentEntry",invoicePayment);
             model.addAttribute("invoiceName", id);
         } catch (Exception e) {
@@ -64,10 +64,9 @@ public class PaymentController {
         }
 
         try {
-        // TODO: get the invoice
             PurchaseInvoice invoice = invoiceService.getInvoinceById(user, id);
             // Generate the Payment
-            PaymentEntry paymentEntry = paymentService.generatePayment(invoice);
+            PaymentEntry paymentEntry = paymentService.generatePayment(user, invoice);
 
             PaymentEntry saved = paymentService.validatePayment(user, paymentEntry);
             redirectAttributes.addFlashAttribute("success" ,"Payemete effectuer"+saved.getName()+" : "+paymentEntry.asStr());
