@@ -2,13 +2,13 @@ package itu.eval_2.newapp.models.purchase;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import itu.eval_2.newapp.models.action.FrappeModel;
+import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public abstract class PurchaseBaseModel extends FrappeModel {
+public abstract class PurchaseBaseModel extends FrappeDocument {
 
     private String supplier;
     @JsonProperty("supplier_name")
@@ -51,7 +51,8 @@ public abstract class PurchaseBaseModel extends FrappeModel {
     // Taxes
     @JsonProperty("tax_category")
     private String taxCategory;
-        
-        
-    
+
+    public PurchaseBaseModel(String doctype) {
+        super(doctype);
+    }
 }

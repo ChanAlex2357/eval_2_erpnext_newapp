@@ -11,6 +11,10 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class PurchaseInvoice extends PurchaseBaseModel {
 
+    public PurchaseInvoice({
+        super("Purchase Invoice");
+    })
+
     @JsonProperty("posting_date")
     private String postingDate;
 
@@ -48,8 +52,14 @@ public class PurchaseInvoice extends PurchaseBaseModel {
     private List<PaymentSchedule> paymentSchedule;
 
     @Override
-    public void cotnrole() {
+    public void update_cotnrole() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'cotnrole'");
+    }
+
+    @Override
+    public void save_controle() {
+        // TODO Auto-generated method stub
+        
     }
 }

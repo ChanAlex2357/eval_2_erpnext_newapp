@@ -38,6 +38,6 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
     @Override
     public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException 
     {
-        updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation));
+        updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation) , SupplierQuotation.class);
     }
 }

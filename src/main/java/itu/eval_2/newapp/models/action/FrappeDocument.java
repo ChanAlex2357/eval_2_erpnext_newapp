@@ -8,10 +8,15 @@ import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
 import lombok.Data;
 
 @Data
-public abstract class FrappeModel {
+public abstract class FrappeDocument {
     // Document metadata
     private String name;
     private String owner;
+    private String doctype;
+    
+    public FrappeDocument(String doctype){
+        setDoctype(doctype);
+    }
     
     @ErpNextDateTime
     private LocalDateTime creation;
@@ -31,5 +36,6 @@ public abstract class FrappeModel {
     @JsonProperty("naming_series")
     private String namingSeries;
 
-    abstract public void cotnrole();    
+    abstract public void update_cotnrole();
+    abstract public void save_controle();
 }

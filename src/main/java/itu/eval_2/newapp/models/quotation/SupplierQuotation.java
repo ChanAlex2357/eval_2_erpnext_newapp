@@ -1,13 +1,17 @@
 package itu.eval_2.newapp.models.quotation;
 
-import itu.eval_2.newapp.models.action.FrappeModel;
+import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SupplierQuotation extends FrappeModel {
+public class SupplierQuotation extends FrappeDocument {
+
+    public SupplierQuotation(){
+        super("Supplier Quotation");
+    }
 
     @JsonProperty("transaction_date")
     private String transactionDate;
@@ -190,9 +194,15 @@ public class SupplierQuotation extends FrappeModel {
     private SupplierQuotationItem[] items;
 
     @Override
-    public void cotnrole() {
+    public void update_cotnrole() {
         for ( SupplierQuotationItem item : items) {
-            item.cotnrole();
+            item.update_cotnrole();
         }
+    }
+
+    @Override
+    public void save_controle() {
+        // TODO Auto-generated method stub
+        
     }
 }

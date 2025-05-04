@@ -8,5 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PurchaseOrderItem extends ItemChild {
-    
+    public PurchaseOrderItem(){
+        super("Purchase Order Item");
+    }
 }

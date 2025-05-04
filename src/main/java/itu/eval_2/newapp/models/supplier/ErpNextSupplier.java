@@ -1,7 +1,7 @@
 package itu.eval_2.newapp.models.supplier;
 
 import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
-import itu.eval_2.newapp.models.action.FrappeModel;
+import itu.eval_2.newapp.models.action.FrappeDocument;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ErpNextSupplier extends FrappeModel{
+public class ErpNextSupplier extends FrappeDocument{
+
+    public ErpNextSupplier(){
+        super("Supplier");
+    }
 
     @JsonProperty("naming_series")
     private String namingSeries;
@@ -127,6 +131,11 @@ public class ErpNextSupplier extends FrappeModel{
     private String likedBy;
 
     @Override
-    public void cotnrole() {}
+    public void update_cotnrole() {}
+    @Override
+    public void save_controle() {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

@@ -9,6 +9,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PaymentSchedule extends ChildModel {
+
+    public PaymentSchedule(){
+        super("PaymentSchedule");
+    }
+
     @JsonProperty("due_date")
     private String dueDate;
 
@@ -41,8 +46,14 @@ public class PaymentSchedule extends ChildModel {
     private double basePaidAmount;
 
     @Override
-    public void cotnrole() {
+    public void update_cotnrole() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'cotnrole'");
+    }
+
+    @Override
+    public void save_controle() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'save_controle'");
     }
 }
