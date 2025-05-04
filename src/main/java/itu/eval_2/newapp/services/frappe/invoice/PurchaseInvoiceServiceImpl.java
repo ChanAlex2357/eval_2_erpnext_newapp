@@ -2,6 +2,7 @@ package itu.eval_2.newapp.services.frappe.invoice;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import itu.eval_2.newapp.config.ApiConfig;
@@ -10,6 +11,8 @@ import itu.eval_2.newapp.models.purchase.PurchaseInvoice;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
 
+
+@Service
 public class PurchaseInvoiceServiceImpl extends FrappeCRUDService<PurchaseInvoice> implements PurchaseInvoiceService{ 
 
     public PurchaseInvoiceServiceImpl(ApiConfig apiConfig, RestTemplate restTemplate) {
