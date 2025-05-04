@@ -2,15 +2,16 @@ package itu.eval_2.newapp.models.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Slf4j
 @EqualsAndHashCode(callSuper = false)
 public class PaymentEntry extends FrappeDocument {
 
@@ -148,7 +149,14 @@ public class PaymentEntry extends FrappeDocument {
 
     @Override
     public void save_controle() {
-        // Implementation for save control logic
+
+        log.info("= = = Controlling PaymentEntry = = = ");
+        log.info("NEED TO Update data : "+(referenceNo == null && !references.isEmpty()));
+        if (referenceNo == null && !references.isEmpty()) {
+            log.info("references = "+references);
+            referenceNo = references.get(0).getReferenceName();
+            log.info("Updated refNo = "+referenceNo);
+        }
     }
 
     public void setToPayState(){

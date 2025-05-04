@@ -65,9 +65,7 @@ public class PaymentController {
 
         try {
             PurchaseInvoice invoice = invoiceService.getInvoinceById(user, id);
-            // Generate the Payment
             PaymentEntry paymentEntry = paymentService.generatePayment(user, invoice);
-
             PaymentEntry saved = paymentService.validatePayment(user, paymentEntry);
             redirectAttributes.addFlashAttribute("success" ,"Payemete effectuer"+saved.getName()+" : "+paymentEntry.asStr());
         } catch (Exception e) {

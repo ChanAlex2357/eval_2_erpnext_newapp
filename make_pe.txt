@@ -1,1 +1,0 @@
-erpnext.accounts.doctype.payment_entry.payment_entry.get_payment_entry
