@@ -8,16 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class SupplierQuotation extends FrappeModel {
-    @JsonProperty("naming_series")
-    private String namingSeries;
-
-    private String supplier;
-
-    @JsonProperty("supplier_name")
-    private String supplierName;
-
-    private String company;
-    private String status;
 
     @JsonProperty("transaction_date")
     private String transactionDate;
