@@ -36,6 +36,10 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
+    
+    public List<T> getAllDocuments(UserErpNext user, T document, Class<T> modelClass) throws ERPNextIntegrationException{
+        return getAllDocuments(user, document, null, modelClass);
+    } 
     public List<T> getAllDocuments(UserErpNext user, T document, FrappeFilter filter, Class<T> modelClass) 
         throws ERPNextIntegrationException {
         try {

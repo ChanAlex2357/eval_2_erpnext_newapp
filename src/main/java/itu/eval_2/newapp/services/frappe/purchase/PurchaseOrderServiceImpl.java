@@ -19,11 +19,7 @@ public class PurchaseOrderServiceImpl extends FrappeCRUDService<PurchaseOrder> i
 
     @Override
     public List<PurchaseOrder> getAllPurchaseOrders(UserErpNext user) throws ERPNextIntegrationException{
-        return getAllDocuments(user, null,PurchaseOrder.class);
+        return getAllDocuments(user, new  PurchaseOrder(),PurchaseOrder.class);
     }
 
-    @Override
-    public String getDoctype(){
-        return "Purchase Order";
-    }
 }

@@ -1,19 +1,20 @@
 package itu.eval_2.newapp.models.purchase;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import itu.eval_2.newapp.models.payment.PaymentSchedule;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PurchaseInvoice extends PurchaseBaseModel {
 
-    public PurchaseInvoice({
+    public PurchaseInvoice(){
         super("Purchase Invoice");
-    })
+    }
 
     @JsonProperty("posting_date")
     private String postingDate;
