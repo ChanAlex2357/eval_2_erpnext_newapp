@@ -44,7 +44,7 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
         throws ERPNextIntegrationException {
         try {
 
-            ResponseEntity<String> response = frappeCall(user, document, null, modelClass, HttpMethod.GET, ApiConfig.ALL_FIELDS, filter);
+            ResponseEntity<String> response = frappeCall(user, document, null, null, HttpMethod.GET, ApiConfig.ALL_FIELDS, filter);
 
             ApiResourceResponse<T> result = objectMapper.readValue(
                 response.getBody(),
@@ -124,13 +124,14 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
 
     private ResponseEntity<String> frappeCall(UserErpNext user,T document,String id,Object body,HttpMethod method, String[] fields, FrappeFilter filter) throws JsonProcessingException , RestClientException  {
         String url = apiConfig.getResourceUrl(document.getDoctype(), id, fields, filter != null ? filter.getFilters().getFilters() : null);
-            log.info("Updating {} document at URL: {}", document.getDoctype(), url);
+            log.info("Targeting api {} document at URL: {}", document.getDoctype(), url);
 
         HttpHeaders headers =  HeadersUtils.createHeaders(user);
 
         HttpEntity<?> httpEntity = null;
         if (body != null) {
             httpEntity = new HttpEntity<>(objectMapper.writeValueAsString(body),headers);
+            log.info("= = = WRITE BODY = = =", headers);
         }
         else {
             httpEntity = new HttpEntity<>(headers);

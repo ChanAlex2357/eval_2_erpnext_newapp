@@ -15,7 +15,7 @@ public class ApiConfig {
     private String method;
     private String ressource;
     private int timeout;
-    public static String[] ALL_FIELDS = new String[]{"[*]"};
+    public static String[] ALL_FIELDS = new String[]{"*"};
 
     public String getResourceBaseUrl() {
         return baseUrl + ressource;
@@ -83,8 +83,8 @@ public class ApiConfig {
             uriComponentsBuilder.queryParam("fields", fieldsStr);
         }
         
-        if (filterSrt != null || filterSrt  != "" ) {
-            uriComponentsBuilder.queryParam("filters", filterSrt);
+        if (filters != null || filterSrt  != "" ) {
+            // uriComponentsBuilder.queryParam("filters", filterSrt);
         }
         
         uri = uriComponentsBuilder.build().toUriString();

@@ -115,7 +115,6 @@ public class ItemChild extends ChildModel {
     private int includeExplodedItems;
     @JsonProperty("page_break")
     private int pageBreak;
-
     @Override
     public void update_cotnrole() {
         updateAmounts();
