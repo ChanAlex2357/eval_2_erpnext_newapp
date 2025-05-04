@@ -23,7 +23,7 @@ public class PurchaseOrder extends FrappeDocument {
     // ******************** Custom Fields ************************
 
     @JsonIgnore
-    private String invoiceState;
+    private String invoiceStatus;
 
     // ***********************************************************
     

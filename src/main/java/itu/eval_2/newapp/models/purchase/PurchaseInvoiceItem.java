@@ -8,6 +8,10 @@ public class PurchaseInvoiceItem extends ItemChild{
 
     @JsonProperty("po_details")
     private String poDetails;
+
+    @JsonProperty("purchase_order")
+    private String purchaseOrder;
+    
     public PurchaseInvoiceItem() {
         super("Purchase Invoice Item");
     }
