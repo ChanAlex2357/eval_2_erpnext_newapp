@@ -6,6 +6,7 @@ import javax.naming.NamingException;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import itu.eval_2.newapp.models.api.requests.GetPaymentEntryRequest;
 import itu.eval_2.newapp.models.payment.PaymentEntry;
 import itu.eval_2.newapp.models.payment.PaymentEntryReference;
 import itu.eval_2.newapp.models.payment.PaymentEntryReferenceable;
@@ -89,6 +90,5 @@ public class PurchaseInvoice extends PurchaseBaseModel implements PaymentEntryRe
     @Override
     public void setPaymenteEntry(PaymentEntry paymentEntry) {
         // Paid to config
-
     }
 }
