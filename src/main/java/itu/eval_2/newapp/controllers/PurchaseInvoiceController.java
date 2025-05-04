@@ -20,8 +20,12 @@ public class PurchaseInvoiceController {
     private PurchaseInvoiceService purchaseInvoiceService;
     @GetMapping
     public String invoicesList(HttpSession session, Model model){
+        UserErpNext user = (UserErpNext)session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
         try {
-            List<PurchaseInvoice> invoices = purchaseInvoiceService.getAllInvoices((UserErpNext)session.getAttribute("user")); 
+            List<PurchaseInvoice> invoices = purchaseInvoiceService.getAllInvoices(user); 
 
             model.addAttribute("invoices", invoices);
         } catch (Exception e) {

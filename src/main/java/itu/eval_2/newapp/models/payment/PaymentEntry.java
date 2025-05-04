@@ -17,8 +17,13 @@ public class PaymentEntry extends FrappeDocument {
     public PaymentEntry() {
         super("Payment Entry");
     }
+    
+    public String asStr(){
+        return getPaymentType()+" for "+getPartyName()+" amount: "+getPaidAmount();
+    }
 
     private String company;
+
     @JsonProperty("payment_type")
     private String paymentType;
 
@@ -26,7 +31,6 @@ public class PaymentEntry extends FrappeDocument {
     private String paymentOrderStatus;
 
     @JsonProperty("posting_date")
-    @ErpNextDateTime
     private String postingDate;
 
     @JsonProperty("party_type")
@@ -161,4 +165,5 @@ public class PaymentEntry extends FrappeDocument {
         }
         getReferences().add(reference);
     }
+     
 }
