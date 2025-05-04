@@ -84,7 +84,7 @@ public class ApiConfig {
         }
         
         if (filters != null || filterSrt  != "" ) {
-            // uriComponentsBuilder.queryParam("filters", filterSrt);
+            uriComponentsBuilder.queryParam("filters", filterSrt);
         }
         
         uri = uriComponentsBuilder.build().toUriString();
