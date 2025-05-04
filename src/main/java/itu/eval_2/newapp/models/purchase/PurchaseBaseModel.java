@@ -52,6 +52,9 @@ public abstract class PurchaseBaseModel extends FrappeDocument {
     @JsonProperty("tax_category")
     private String taxCategory;
 
+    @JsonProperty("credit_to")
+    private String crediTo;
+
     public PurchaseBaseModel(String doctype) {
         super(doctype);
     }

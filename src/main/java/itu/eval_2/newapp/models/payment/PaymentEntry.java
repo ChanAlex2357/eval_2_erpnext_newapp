@@ -18,6 +18,7 @@ public class PaymentEntry extends FrappeDocument {
         super("Payment Entry");
     }
 
+    private String company;
     @JsonProperty("payment_type")
     private String paymentType;
 
@@ -146,13 +147,11 @@ public class PaymentEntry extends FrappeDocument {
         // Implementation for save control logic
     }
 
-    public void setToPaid(){
+    public void setToPayState(){
         this.setPaymentType("Pay");
-        // Paid to config
-        this.setPaidTo("Creditors - IE2"); // Example value, adjust as needed
-        this.setPaidToAccountCurrency("EUR");
         // Paid from config
         this.setPaidFrom("Bank Account - IE2");
+        this.setPaidFromAccountType("Bank");
         this.setPaidFromAccountCurrency("EUR");
     }
 
@@ -162,6 +161,4 @@ public class PaymentEntry extends FrappeDocument {
         }
         getReferences().add(reference);
     }
-
-
 }

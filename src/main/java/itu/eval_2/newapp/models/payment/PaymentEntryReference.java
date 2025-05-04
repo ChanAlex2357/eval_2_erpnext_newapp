@@ -1,16 +1,20 @@
 package itu.eval_2.newapp.models.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import itu.eval_2.newapp.models.action.ChildModel;
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PaymentEntryReference extends FrappeDocument {
+public class PaymentEntryReference extends ChildModel {
 
     public PaymentEntryReference() {
         super("Payment Entry Reference");
+        setParentfield("references");
+        setParenttype("Parent Entry");
     }
     
     @JsonProperty("reference_doctype")

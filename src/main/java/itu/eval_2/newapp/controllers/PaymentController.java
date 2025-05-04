@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itu.eval_2.newapp.models.payment.PaymentEntry;
+import itu.eval_2.newapp.models.payment.PurchaseInvoicePayment;
 import itu.eval_2.newapp.models.purchase.PurchaseInvoice;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.invoice.PurchaseInvoiceService;
+import itu.eval_2.newapp.services.frappe.payment.PaymentService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
 
@@ -20,7 +22,9 @@ public class PaymentController {
 
     @Autowired
     private PurchaseInvoiceService invoiceService;
-    
+    @Autowired
+    private PaymentService paymentService;
+
     @GetMapping("/{id}")
     public String fichePayment(HttpSession session,@PathParam("id") String id, Model model){
         UserErpNext user = (UserErpNext) session.getAttribute("user");
@@ -32,7 +36,8 @@ public class PaymentController {
             // TODO: get the invoice
             PurchaseInvoice invoice = invoiceService.getInvoinceById(user, id);
             // Generate the Payment
-            model.addAttribute("paymentEntry",new PaymentEntry());
+            PaymentEntry invoicePayment = paymentService.generatePayment(invoice);
+            model.addAttribute("paymentEntry",invoicePayment);
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -42,6 +47,6 @@ public class PaymentController {
 
     @PostMapping("/{id}/pay")
     public String pay(){
-        return "";
+        return "/invoices";
     }
 }

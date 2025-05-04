@@ -2,15 +2,20 @@ package itu.eval_2.newapp.models.purchase;
 
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import itu.eval_2.newapp.models.payment.PaymentEntry;
+import itu.eval_2.newapp.models.payment.PaymentEntryReference;
+import itu.eval_2.newapp.models.payment.PaymentEntryReferenceable;
 import itu.eval_2.newapp.models.payment.PaymentSchedule;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PurchaseInvoice extends PurchaseBaseModel {
+public class PurchaseInvoice extends PurchaseBaseModel implements PaymentEntryReferenceable {
 
     public PurchaseInvoice(){
         super("Purchase Invoice");
@@ -62,5 +67,28 @@ public class PurchaseInvoice extends PurchaseBaseModel {
     public void save_controle() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public PaymentEntryReference getAsPaymentEntryReference() {
+        PaymentEntryReference ref = new PaymentEntryReference();
+        ref.setReferenceDoctype(getDoctype());
+        ref.setReferenceName(getName());
+        ref.setDueDate(getDueDate());
+        // Amount 
+        ref.setTotalAmount(getGrandTotal());
+        ref.setOutstandingAmount(getGrandTotal());
+        ref.setAllocatedAmount(getGrandTotal());
+
+        ref.setExchangeRate(1);
+        ref.setAccount(getCrediTo());
+
+        return ref;
+    }
+
+    @Override
+    public void setPaymenteEntry(PaymentEntry paymentEntry) {
+        // Paid to config
+
     }
 }
