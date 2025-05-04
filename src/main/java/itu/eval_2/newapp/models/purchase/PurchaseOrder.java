@@ -3,6 +3,7 @@ import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -18,6 +19,13 @@ public class PurchaseOrder extends FrappeDocument {
     private String transactionDate;
     @JsonProperty("schedule_date")
     private String scheduleDate;
+
+    // ******************** Custom Fields ************************
+
+    @JsonIgnore
+    private String invoiceState;
+
+    // ***********************************************************
     
     // Items
     private List<PurchaseOrderItem> items;
@@ -29,8 +37,5 @@ public class PurchaseOrder extends FrappeDocument {
         }
     }
     @Override
-    public void save_controle() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void save_controle() {}
 }
