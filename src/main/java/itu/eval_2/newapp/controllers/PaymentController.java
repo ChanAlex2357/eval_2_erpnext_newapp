@@ -69,9 +69,8 @@ public class PaymentController {
             // Generate the Payment
             PaymentEntry paymentEntry = paymentService.generatePayment(invoice);
 
-            
-
-            redirectAttributes.addFlashAttribute("success" ,"Payemete effectuer : "+paymentEntry.asStr());
+            PaymentEntry saved = paymentService.validatePayment(user, paymentEntry);
+            redirectAttributes.addFlashAttribute("success" ,"Payemete effectuer"+saved.getName()+" : "+paymentEntry.asStr());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error_message", "Erreur lors de la validation du payment : "+ e.getMessage());
         }

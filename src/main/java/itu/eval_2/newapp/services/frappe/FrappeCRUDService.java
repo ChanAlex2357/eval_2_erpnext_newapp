@@ -97,7 +97,7 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
 
     public T createDocument(UserErpNext user, T document, Object body, Class<T> modelClass) throws ERPNextIntegrationException{
         document.save_controle();
-        return sendRessourceData(user, document.getDoctype(), document, body, HttpMethod.POST, modelClass);
+        return sendRessourceData(user, null, document, body, HttpMethod.POST, modelClass);
     }
 
     /**

@@ -20,12 +20,15 @@ public class PurchaseInvoicePayment extends PaymentEntry {
         this.setPaidAmountAfterTax(invoice.getBaseGrandTotal());
         this.setSourceExchangeRate(1);
         this.setBasePaidAmount(invoice.getBaseGrandTotal());
+        this.setReceivedAmount(invoice.getGrandTotal());
 
         // Payment reference
         this.setPaidTo(invoice.getCrediTo()); // Example value, adjust as needed
         this.setPaidToAccountCurrency(invoice.getCurrency());
         this.setPaidToAccountType("Payable");
-        
+        this.setReferenceDate(invoice.getDueDate());
+        this.setReferenceNo(invoice.getName());
+
         // Add invoice as reference child
         addReference(invoice.getAsPaymentEntryReference());
         
