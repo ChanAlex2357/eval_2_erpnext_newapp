@@ -12,6 +12,7 @@ public class HeadersUtils {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", user.getAuthToken());
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }
 }

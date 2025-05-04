@@ -22,11 +22,6 @@ public class ErpNextSupplierServiceImpl extends FrappeCRUDService<ErpNextSupplie
 
     @Override
     public List<ErpNextSupplier> getAllSuppliers(UserErpNext user) throws ERPNextIntegrationException {
-        return getAllDocuments(user, null, ErpNextSupplier.class);
-    }
-
-    @Override
-    public String getDoctype() {
-        return "Supplier";
+        return getAllDocuments(user, new ErpNextSupplier(), ErpNextSupplier.class);
     }
 }

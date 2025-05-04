@@ -5,9 +5,13 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public abstract class ChildModel extends FrappeModel{
+public abstract class ChildModel extends FrappeDocument{
         // Document relationship
         private String parent;
         private String parentfield;
         private String parenttype;
+
+        public ChildModel (String doctype){
+                super(doctype);
+        }
 }

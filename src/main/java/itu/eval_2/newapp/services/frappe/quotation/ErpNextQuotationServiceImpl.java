@@ -21,23 +21,18 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
     }
 
     @Override
-    public String getDoctype(){
-        return "Supplier Quotation";
-    }
-
-    @Override
     public List<SupplierQuotation> getAllQuotations(UserErpNext user, SupplierQuotationFilter filter) throws ERPNextIntegrationException {
-        return getAllDocuments(user, filter, SupplierQuotation.class);
+        return getAllDocuments(user, new SupplierQuotation(),filter, SupplierQuotation.class);
     }
 
     @Override
     public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
-        return getDocumentById(user, id, SupplierQuotation.class);
+        return getDocumentById(user, id, new SupplierQuotation(), SupplierQuotation.class);
     }
 
     @Override
     public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException 
     {
-        updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation));
+        updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation) , SupplierQuotation.class);
     }
 }

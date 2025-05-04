@@ -8,6 +8,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ItemChild extends ChildModel {
+
+    public ItemChild(String doctype){
+        super(doctype);
+    }
     // Item Information
     @JsonProperty("item_code")
     private String itemCode;
@@ -111,9 +115,8 @@ public class ItemChild extends ChildModel {
     private int includeExplodedItems;
     @JsonProperty("page_break")
     private int pageBreak;
-
     @Override
-    public void cotnrole() {
+    public void update_cotnrole() {
         updateAmounts();
         validateQuantities();
     }
@@ -132,5 +135,11 @@ public class ItemChild extends ChildModel {
         if (this.rejectedQty > this.receivedQty) {
             throw new IllegalStateException("Rejected quantity cannot exceed received quantity");
         }
+    }
+
+    @Override
+    public void save_controle() {
+        updateAmounts();
+        validateQuantities();
     }
 }

@@ -21,12 +21,12 @@ public class PurchaseInvoiceServiceImpl extends FrappeCRUDService<PurchaseInvoic
 
     @Override
     public List<PurchaseInvoice> getAllInvoices(UserErpNext user) throws ERPNextIntegrationException{
-        return getAllDocuments(user, null,PurchaseInvoice.class);
+        return getAllDocuments(user, new PurchaseInvoice(),PurchaseInvoice.class);
     }
 
     @Override
-    public String getDoctype() {
-        return "Purchase Invoice";
+    public PurchaseInvoice getInvoinceById(UserErpNext user, String id) throws ERPNextIntegrationException {
+        return getDocumentById(user, id, new PurchaseInvoice(), PurchaseInvoice.class);
     }
     
 }

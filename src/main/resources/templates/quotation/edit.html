@@ -65,6 +65,7 @@
                             <tr>
                                 <th>Item Code</th>
                                 <th>Item Name</th>
+                                <th>UOM</th>
                                 <th>Entrepot</th>
                                 <th>Quantity</th>
                                 <th>Rate</th>
@@ -80,6 +81,10 @@
                                 <td>
                                     <input type="hidden" th:field="*{items[__${itemStat.index}__].itemName}" />
                                     <span th:text="${item.itemName}">T-shirt</span>
+                                </td>
+                                <td>
+                                    <input type="hidden" th:field="*{items[__${itemStat.index}__].uom}" />
+                                    <span th:text="${item.uom}">UO?</span>
                                 </td>
                                 <td>
                                     <input type="hidden" th:field="*{items[__${itemStat.index}__].warehouse}">

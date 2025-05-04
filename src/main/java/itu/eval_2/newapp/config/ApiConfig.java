@@ -15,6 +15,7 @@ public class ApiConfig {
     private String method;
     private String ressource;
     private int timeout;
+    public static String[] ALL_FIELDS = new String[]{"*"};
 
     public String getResourceBaseUrl() {
         return baseUrl + ressource;
@@ -24,8 +25,8 @@ public class ApiConfig {
         return baseUrl + method;
     }
 
-    public String getMethodUrl(String url) {
-        return baseUrl + method + url;
+    public String getMethodUrl(String methodPath) {
+        return baseUrl + method + "/" + methodPath;
     }
 
     private String makeRessourceFiters(FrappApiFilter[] filters) {
@@ -82,7 +83,7 @@ public class ApiConfig {
             uriComponentsBuilder.queryParam("fields", fieldsStr);
         }
         
-        if (filterSrt != null || filterSrt  != "" ) {
+        if (filters != null || filterSrt  != "" ) {
             uriComponentsBuilder.queryParam("filters", filterSrt);
         }
         
@@ -92,9 +93,9 @@ public class ApiConfig {
     }
 
     public String getResourceWithAllFieldsUrl(String doctype,FrappApiFilter[] filters){
-        String[] fields = new String[]{"*"};
-        return getResourceUrl(doctype,null, fields,filters);
+        return getResourceUrl(doctype,null, ALL_FIELDS,filters);
     }
+
     
     public String getResourceUrl(String doctype,String id) {
         return getResourceUrl(doctype,id,null,null);
