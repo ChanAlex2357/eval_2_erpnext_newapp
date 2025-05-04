@@ -8,6 +8,7 @@ import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import itu.eval_2.newapp.models.api.responses.ApiResourceResponse;
+import itu.eval_2.newapp.models.api.responses.MethodApiResponse;
 import itu.eval_2.newapp.models.api.responses.SingletonApiResourceResponse;
 import itu.eval_2.newapp.models.filter.FrappeFilter;
 import itu.eval_2.newapp.models.user.UserErpNext;
@@ -44,7 +45,7 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
         throws ERPNextIntegrationException {
         try {
 
-            ResponseEntity<String> response = frappeCall(user, document, null, null, HttpMethod.GET, ApiConfig.ALL_FIELDS, filter);
+            ResponseEntity<String> response = callResource(user, document, null, null, HttpMethod.GET, ApiConfig.ALL_FIELDS, filter);
 
             ApiResourceResponse<T> result = objectMapper.readValue(
                 response.getBody(),
@@ -66,7 +67,7 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
     public T getDocumentById(UserErpNext user, String id, T document, Class<T> modelClass)
         throws ERPNextIntegrationException {
         try {
-            ResponseEntity<String> response = frappeCall(user,document,id,null, HttpMethod.GET, null, null);
+            ResponseEntity<String> response = callResource(user,document,id,null, HttpMethod.GET, null, null);
 
             SingletonApiResourceResponse<T> result = objectMapper.readValue(
                 response.getBody(),
@@ -92,23 +93,23 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
     public T updateDocument(UserErpNext user, String id, T document, Object body , Class<T> modelClass) 
         throws ERPNextIntegrationException {
         document.update_cotnrole();
-        return sendRessourceData(user, id, document, body, HttpMethod.PUT,modelClass);
+        return callForUpdateOrCreateResource(user, id, document, body, HttpMethod.PUT,modelClass);
     }
 
     public T createDocument(UserErpNext user, T document, Object body, Class<T> modelClass) throws ERPNextIntegrationException{
         document.save_controle();
-        return sendRessourceData(user, null, document, body, HttpMethod.POST, modelClass);
+        return callForUpdateOrCreateResource(user, null, document, body, HttpMethod.POST, modelClass);
     }
 
     /**
      * Send data to ErpNext
      */
-    public T sendRessourceData(UserErpNext user, String id, T document, Object body , HttpMethod method , Class<T> modelClass) throws ERPNextIntegrationException {
+    public T callForUpdateOrCreateResource(UserErpNext user, String id, T document, Object body , HttpMethod method , Class<T> modelClass) throws ERPNextIntegrationException {
         if (method != HttpMethod.PUT && method != HttpMethod.POST) {
             throw new RuntimeException("The method need to be PUT or POST when sending ressource data");
         }
         try {
-            ResponseEntity<String> response = frappeCall(user,document,id,body,method,null,null);
+            ResponseEntity<String> response = callResource(user,document,id,body,method,null,null);
 
             SingletonApiResourceResponse<T> doc = objectMapper.readValue(response.getBody(), objectMapper.getTypeFactory().constructParametricType( SingletonApiResourceResponse.class , modelClass ));
 
@@ -122,10 +123,14 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
         }
     }
 
-    private ResponseEntity<String> frappeCall(UserErpNext user,T document,String id,Object body,HttpMethod method, String[] fields, FrappeFilter filter) throws JsonProcessingException , RestClientException  {
-        String url = apiConfig.getResourceUrl(document.getDoctype(), id, fields, filter != null ? filter.getFilters().getFilters() : null);
-            log.info("Targeting api {} document at URL: {}", document.getDoctype(), url);
+    private ResponseEntity<String> callResource(UserErpNext user,T document,String id,Object body,HttpMethod method, String[] fields, FrappeFilter filter) throws JsonProcessingException , RestClientException  {
 
+        String url = apiConfig.getResourceUrl(document.getDoctype(), id, fields, filter != null ? filter.getFilters().getFilters() : null);
+        log.info("Targeting api {} document at URL: {}", document.getDoctype(), url);
+        return frappeCall(user, url, method, body);
+    }
+
+    private ResponseEntity<String> frappeCall(UserErpNext user, String url, HttpMethod method,Object body) throws JsonProcessingException , RestClientException  {
         HttpHeaders headers =  HeadersUtils.createHeaders(user);
 
         HttpEntity<?> httpEntity = null;
@@ -145,4 +150,19 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
         );
     }
 
+
+    public T callMethod(UserErpNext user, String methodPath, HttpMethod method, Object body, Class<T> modelClass) throws ERPNextIntegrationException {
+        try {
+            String url = apiConfig.getMethodUrl(methodPath);
+
+            ResponseEntity<String> response = frappeCall(user, url, method, body);
+
+            MethodApiResponse<T> data = objectMapper.readValue(response.getBody(), objectMapper.getTypeFactory().constructParametricType(MethodApiResponse.class,modelClass));
+
+            return data.getMessage();
+
+        } catch (Exception e) {
+            throw new ERPNextIntegrationException("Error while calling the method \""+methodPath+"\" : "+e.getMessage());
+        }
+    }
 }

@@ -20,7 +20,8 @@ public class PaymentServiceImpl extends FrappeCRUDService<PaymentEntry> implemen
 
     @Override
     public PaymentEntry generatePayment(PurchaseInvoice invoice) throws ERPNextIntegrationException {
-        PaymentEntry paymentEntry = new PurchaseInvoicePayment(invoice);
+        PaymentEntry paymentEntry= null;
+        // erpnext.accounts.doctype.payment_entry.payment_entry.get_payment_entry
         return paymentEntry;
     }
 
