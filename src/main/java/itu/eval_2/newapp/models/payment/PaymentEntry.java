@@ -1,9 +1,14 @@
 package itu.eval_2.newapp.models.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import itu.eval_2.newapp.annotations.date.ErpNextDateTime;
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -20,6 +25,7 @@ public class PaymentEntry extends FrappeDocument {
     private String paymentOrderStatus;
 
     @JsonProperty("posting_date")
+    @ErpNextDateTime
     private String postingDate;
 
     @JsonProperty("party_type")
@@ -128,6 +134,8 @@ public class PaymentEntry extends FrappeDocument {
     @JsonProperty("in_words")
     private String inWords;
 
+    private List<PaymentEntryReference> references;
+
     @Override
     public void update_cotnrole() {
         // Implementation for update control logic
@@ -137,4 +145,23 @@ public class PaymentEntry extends FrappeDocument {
     public void save_controle() {
         // Implementation for save control logic
     }
+
+    public void setToPaid(){
+        this.setPaymentType("Pay");
+        // Paid to config
+        this.setPaidTo("Creditors - IE2"); // Example value, adjust as needed
+        this.setPaidToAccountCurrency("EUR");
+        // Paid from config
+        this.setPaidFrom("Bank Account - IE2");
+        this.setPaidFromAccountCurrency("EUR");
+    }
+
+    public void addReference(PaymentEntryReference reference){
+        if (getReferences() == null) {
+            setReferences(new ArrayList<PaymentEntryReference>());
+        }
+        getReferences().add(reference);
+    }
+
+
 }
