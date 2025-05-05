@@ -10,6 +10,7 @@ import itu.eval_2.newapp.models.action.FrappeDocument;
 import itu.eval_2.newapp.models.api.responses.ApiResourceResponse;
 import itu.eval_2.newapp.models.api.responses.ApiResponse;
 import itu.eval_2.newapp.models.api.responses.MethodApiResponse;
+import itu.eval_2.newapp.models.api.responses.ResponseModel;
 import itu.eval_2.newapp.models.api.responses.SingletonApiResourceResponse;
 import itu.eval_2.newapp.models.api.wrapper.ApiResponseWrapper;
 import itu.eval_2.newapp.models.filter.FrappeFilter;
@@ -170,13 +171,13 @@ public class FrappeCRUDService<T extends FrappeDocument> {
         }
     }
 
-    public ApiResponse<T> callApiResponseMethod(UserErpNext user, String methodPath, HttpMethod method, Object body, Class<T> modelClass) throws ERPNextIntegrationException {
+    public ApiResponse<? extends ResponseModel> callApiResponseMethod(UserErpNext user, String methodPath, HttpMethod method, Object body, Class<? extends ResponseModel> modelClass) throws ERPNextIntegrationException {
         try {
             String url = apiConfig.getMethodUrl(methodPath);
             
             ResponseEntity<String> response = frappeCall(user, url, method, body);
             
-            MethodApiResponse<ApiResponse<T>> data = objectMapper.readValue(
+            MethodApiResponse<ApiResponse<? extends ResponseModel>> data = objectMapper.readValue(
                 response.getBody(), 
                 objectMapper.getTypeFactory().constructParametricType(
                     MethodApiResponse.class,
@@ -192,4 +193,28 @@ public class FrappeCRUDService<T extends FrappeDocument> {
         }
     }
 
+    public ApiResponse<List<T>> callApiListResponseMethod(UserErpNext user, String methodPath, HttpMethod method, Object body, Class<T> modelClass) throws ERPNextIntegrationException {
+        try {
+            String url = apiConfig.getMethodUrl(methodPath);
+            
+            ResponseEntity<String> response = frappeCall(user, url, method, body);
+            
+            MethodApiResponse<ApiResponse<List<T>>> data = objectMapper.readValue(
+                response.getBody(), 
+                objectMapper.getTypeFactory().constructParametricType(
+                    MethodApiResponse.class,
+                    objectMapper.getTypeFactory().constructParametricType(
+                        ApiResponse.class,
+                        objectMapper.getTypeFactory().constructParametricType(
+                            List.class,
+                            modelClass
+                        )
+                    )
+                )
+            );
+            return data.getMessage();
+        } catch (Exception e) {
+            throw new ERPNextIntegrationException("Error while calling the method \"" + methodPath + "\" : " + e.getMessage());
+        }
+    }
 }
