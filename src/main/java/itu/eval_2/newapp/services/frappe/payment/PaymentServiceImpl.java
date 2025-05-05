@@ -29,6 +29,7 @@ public class PaymentServiceImpl extends FrappeCRUDService<PaymentEntry> implemen
     @Override
     public PaymentEntry validatePayment(UserErpNext user, PaymentEntry paymentEntry) throws ERPNextIntegrationException {
         paymentEntry.setDocstatus(1);
+        String methodPath = "eval_app.api.make_payment_entry";
         return createDocument(user, paymentEntry,paymentEntry, PaymentEntry.class);
     }
     

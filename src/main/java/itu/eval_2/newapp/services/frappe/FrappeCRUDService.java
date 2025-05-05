@@ -8,12 +8,16 @@ import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import itu.eval_2.newapp.models.api.responses.ApiResourceResponse;
+import itu.eval_2.newapp.models.api.responses.ApiResponse;
 import itu.eval_2.newapp.models.api.responses.MethodApiResponse;
 import itu.eval_2.newapp.models.api.responses.SingletonApiResourceResponse;
+import itu.eval_2.newapp.models.api.wrapper.ApiResponseWrapper;
 import itu.eval_2.newapp.models.filter.FrappeFilter;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.utils.http.HeadersUtils;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -23,7 +27,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public abstract class FrappeCRUDService<T extends FrappeDocument> {
+public class FrappeCRUDService<T extends FrappeDocument> {
 
     private final ApiConfig apiConfig;
     private final RestTemplate restTemplate;
@@ -165,4 +169,27 @@ public abstract class FrappeCRUDService<T extends FrappeDocument> {
             throw new ERPNextIntegrationException("Error while calling the method \""+methodPath+"\" : "+e.getMessage());
         }
     }
+
+    public ApiResponse<T> callApiResponseMethod(UserErpNext user, String methodPath, HttpMethod method, Object body, Class<T> modelClass) throws ERPNextIntegrationException {
+        try {
+            String url = apiConfig.getMethodUrl(methodPath);
+            
+            ResponseEntity<String> response = frappeCall(user, url, method, body);
+            
+            MethodApiResponse<ApiResponse<T>> data = objectMapper.readValue(
+                response.getBody(), 
+                objectMapper.getTypeFactory().constructParametricType(
+                    MethodApiResponse.class,
+                    objectMapper.getTypeFactory().constructParametricType(
+                        ApiResponse.class,
+                        modelClass
+                    )
+                )
+            );
+            return data.getMessage();
+        } catch (Exception e) {
+            throw new ERPNextIntegrationException("Error while calling the method \"" + methodPath + "\" : " + e.getMessage());
+        }
+    }
+
 }
