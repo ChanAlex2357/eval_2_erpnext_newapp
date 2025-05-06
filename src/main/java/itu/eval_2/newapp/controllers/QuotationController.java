@@ -1,13 +1,17 @@
 package itu.eval_2.newapp.controllers;
 
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
+import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.quotation.QuotationService;
+import itu.eval_2.newapp.services.frappe.quotation.RequestQuotationService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +22,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 public class QuotationController {
 
-    private final QuotationService quotationService;
+    @Autowired
+    private QuotationService quotationService;
+    @Autowired
+    private RequestQuotationService requestQuotationService;
 
-    public QuotationController(QuotationService quotationService) {
-        this.quotationService = quotationService;
+
+    @GetMapping("/requests")
+    public String requests(
+        HttpSession session, 
+        Model model,
+        @RequestParam(required = false,name = "supplier") String supplier
+    ) {
+        UserErpNext user = (UserErpNext) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            SupplierQuotationFilter filter = new SupplierQuotationFilter(supplier);
+            List<RequestForQuotation> quotations = requestQuotationService.getAllRequestForQuotation(user,supplier);
+            model.addAttribute("quotations", quotations);
+            model.addAttribute("filter", filter);
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to fetch request quotations: " + e.getMessage());
+        }
+        return "quotation/request_list";
     }
 
     @GetMapping
