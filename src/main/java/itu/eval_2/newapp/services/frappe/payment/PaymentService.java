@@ -7,5 +7,5 @@ import itu.eval_2.newapp.models.user.UserErpNext;
 
 public interface PaymentService {
     public PaymentEntry generatePayment(UserErpNext user, PurchaseInvoice invoice) throws ERPNextIntegrationException;
-    public PaymentEntry validatePayment(UserErpNext user, PaymentEntry paymentEntry) throws ERPNextIntegrationException;
+    public PaymentEntry validatePayment(UserErpNext user, PaymentEntry paymentEntry, PurchaseInvoice invoice) throws ERPNextIntegrationException;
 }

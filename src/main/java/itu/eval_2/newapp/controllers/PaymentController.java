@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -53,6 +55,7 @@ public class PaymentController {
     public String pay(
         @PathVariable("id") String id,
         RedirectAttributes redirectAttributes,
+        @ModelAttribute PaymentEntry paymentEntry,
         HttpSession session
     ){
         UserErpNext user = (UserErpNext) session.getAttribute("user");
@@ -62,12 +65,14 @@ public class PaymentController {
 
         try {
             PurchaseInvoice invoice = invoiceService.getInvoinceById(user, id);
-            PaymentEntry paymentEntry = paymentService.generatePayment(user, invoice);
-            PaymentEntry saved = paymentService.validatePayment(user, paymentEntry);
-            redirectAttributes.addFlashAttribute("success" ,"Payemete effectuer"+saved.getName()+" : "+paymentEntry.asStr());
+            paymentEntry = paymentService.validatePayment(user, paymentEntry, invoice);
+            redirectAttributes.addFlashAttribute("success" ,"Payemete effectuer"+paymentEntry.getName()+" : "+paymentEntry.asStr());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error_message", "Erreur lors de la validation du payment : "+ e.getMessage());
         }
         return "redirect:/invoices";
     }
+
+
+
 }

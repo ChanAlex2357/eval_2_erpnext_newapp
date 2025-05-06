@@ -38,6 +38,10 @@
 
         <div class="mt-4">
             <form th:action="@{/payments/{id}/pay(id=${invoiceName})}" th:object="${paymentEntry}" method="post">
+                <div class="input-group">
+                    <label for="amount">Paid amount</label>
+                    <input type="number" step="0.1" th:field="*{paidAmount}" class="form-control">
+                </div>
                 <button type="submit" class="btn btn-primary">Pay</button>
             </form>
         </div>

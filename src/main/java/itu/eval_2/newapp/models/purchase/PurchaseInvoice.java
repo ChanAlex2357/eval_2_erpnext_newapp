@@ -68,7 +68,7 @@ public class PurchaseInvoice extends PurchaseBaseModel implements PaymentEntryRe
 
     public int isPaid(){
         String ignoreStatus = this.getStatus().toLowerCase();
-        return ignoreStatus.contains("paid")?1:0;
+        return ignoreStatus.equals("paid")?1:0;
     }
 
     @Override

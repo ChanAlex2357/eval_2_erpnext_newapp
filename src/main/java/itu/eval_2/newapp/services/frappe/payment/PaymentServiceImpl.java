@@ -7,12 +7,15 @@ import org.springframework.web.client.RestTemplate;
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.api.requests.GetPaymentEntryRequest;
+import itu.eval_2.newapp.models.api.requests.UpdatePriceRequest;
 import itu.eval_2.newapp.models.payment.PaymentEntry;
 import itu.eval_2.newapp.models.purchase.PurchaseInvoice;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class PaymentServiceImpl extends FrappeCRUDService<PaymentEntry> implements PaymentService{
 
     public PaymentServiceImpl(ApiConfig apiConfig, RestTemplate restTemplate) {
@@ -27,9 +30,13 @@ public class PaymentServiceImpl extends FrappeCRUDService<PaymentEntry> implemen
     }
 
     @Override
-    public PaymentEntry validatePayment(UserErpNext user, PaymentEntry paymentEntry) throws ERPNextIntegrationException {
+    public PaymentEntry validatePayment(UserErpNext user, PaymentEntry paymentEntry, PurchaseInvoice invoice) throws ERPNextIntegrationException {
         paymentEntry.setDocstatus(1);
         String methodPath = "eval_app.api.make_payment_entry";
-        return createDocument(user, paymentEntry,paymentEntry, PaymentEntry.class);
+        log.info("STARTING SAVING PAYMENT WITH AMOUNT : "+paymentEntry.getPaidAmount());
+
+        UpdatePriceRequest updatePriceRequest = new UpdatePriceRequest(paymentEntry, invoice);
+        return callMethod(user, methodPath, HttpMethod.POST, updatePriceRequest, PaymentEntry.class);
+        // return createDocument(user, paymentEntry,paymentEntry, PaymentEntry.class);
     }
 }

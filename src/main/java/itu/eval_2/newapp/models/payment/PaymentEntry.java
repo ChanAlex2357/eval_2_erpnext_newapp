@@ -150,6 +150,13 @@ public class PaymentEntry extends FrappeDocument {
     @Override
     public void save_controle() {
 
+        // balance
+        if (getPaidAmount() != getReceivedAmount()) {
+            setReceivedAmount( getPaidAmount() );
+            setDifferenceAmount(0);
+        }
+
+
         log.info("= = = Controlling PaymentEntry = = = ");
         log.info("NEED TO Update data : "+(referenceNo == null && !references.isEmpty()));
         if (referenceNo == null && !references.isEmpty()) {
