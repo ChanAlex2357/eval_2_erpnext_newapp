@@ -22,7 +22,6 @@ public class PurchaseOrderServiceImpl extends FrappeCRUDService<PurchaseOrder> i
 
     @Override
     public List<PurchaseOrder> getAllPurchaseOrders(UserErpNext user) throws ERPNextIntegrationException{
-
         String methodPath = "eval_app.api.get_purchase_orders_with_invoices";
         ApiResponse<List<PurchaseOrder>> result = callApiListResponseMethod(user, methodPath, HttpMethod.GET, null, PurchaseOrder.class);
         List<PurchaseOrder> resultData = result.getData();

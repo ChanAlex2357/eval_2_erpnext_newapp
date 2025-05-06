@@ -32,5 +32,4 @@ public class PaymentServiceImpl extends FrappeCRUDService<PaymentEntry> implemen
         String methodPath = "eval_app.api.make_payment_entry";
         return createDocument(user, paymentEntry,paymentEntry, PaymentEntry.class);
     }
-    
 }

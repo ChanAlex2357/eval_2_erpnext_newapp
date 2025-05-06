@@ -42,13 +42,12 @@
                         <td th:text="${invoice.name}">QTN-0001</td>
                         <td>
                             <span th:class="${invoice.status == 'Draft' ? 'badge bg-danger' : 
-                                            invoice.status == 'To Receive and Bill' ? 'badge bg-warning' : 
-                                            invoice.status == 'To Bill' ? 'badge bg-warning' : 
-                                            invoice.status == 'To Receive' ? 'badge bg-warning' : 'badge bg-success'}"
+                                            invoice.status == 'Unpaid' ? 'badge bg-warning' : 
+                                            invoice.status == 'Paid': 'badge bg-success'}"
                                   th:text="${invoice.status}">Draft</span>
                         </td>
                         <td>
-                            <a th:href="@{/payments/{name}(name=${invoice.name})}">Payer</a>
+                            <a th:if="${invoice.isPaid() == 0 }" th:href="@{/payments/{name}(name=${invoice.name})}">Payer</a>
                         </td>
                     </tr>
                     <tr th:unless="${orders != null and orders.isEmpty()}">

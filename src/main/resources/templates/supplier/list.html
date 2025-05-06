@@ -83,10 +83,10 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Group</th>
-                    <th>Company</th>
+                    <!-- <th>Group</th> -->
+                    <!-- <th>Company</th> -->
                     <th>Type</th>
-                    <th>Details</th>
+                    <!-- <th>Details</th> -->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -141,20 +141,20 @@
                         nameCell.textContent = supplier.name;
 
                         // Group column
-                        const groupCell = document.createElement('td');
-                        groupCell.textContent = supplier.supplier_group;
+                        // const groupCell = document.createElement('td');
+                        // groupCell.textContent = supplier.supplier_group;
 
                         // Company column
-                        const companyCell = document.createElement('td');
-                        companyCell.textContent = supplier.represents_company || 'N/A';
+                        // const companyCell = document.createElement('td');
+                        // companyCell.textContent = supplier.represents_company || 'N/A';
 
                         // Type column
                         const typeCell = document.createElement('td');
                         typeCell.textContent = supplier.supplier_type;
 
-                        // Details column
-                        const detailsCell = document.createElement('td');
-                        detailsCell.textContent = supplier.supplier_details || 'No details available';
+                        // // Details column
+                        // const detailsCell = document.createElement('td');
+                        // detailsCell.textContent = supplier.supplier_details || 'No details available';
 
                         // Actions column
                         const actionsCell = document.createElement('td');
@@ -183,10 +183,10 @@
                         actionsCell.appendChild(actionsDiv);
 
                         row.appendChild(nameCell);
-                        row.appendChild(groupCell);
-                        row.appendChild(companyCell);
+                        // row.appendChild(groupCell);
+                        // row.appendChild(companyCell);
                         row.appendChild(typeCell);
-                        row.appendChild(detailsCell);
+                        // row.appendChild(detailsCell);
                         row.appendChild(actionsCell);
 
                         suppliersBody.appendChild(row);

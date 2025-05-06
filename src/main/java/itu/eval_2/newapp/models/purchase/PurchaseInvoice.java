@@ -65,6 +65,12 @@ public class PurchaseInvoice extends PurchaseBaseModel implements PaymentEntryRe
         
     }
 
+
+    public int isPaid(){
+        String ignoreStatus = this.getStatus().toLowerCase();
+        return ignoreStatus.contains("paid")?1:0;
+    }
+
     @Override
     public PaymentEntryReference getAsPaymentEntryReference() {
         PaymentEntryReference ref = new PaymentEntryReference();
