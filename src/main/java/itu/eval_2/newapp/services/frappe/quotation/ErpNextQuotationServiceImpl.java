@@ -2,13 +2,18 @@ package itu.eval_2.newapp.services.frappe.quotation;
 
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.models.api.requests.SupplierQuotationFromRequestRequest;
 import itu.eval_2.newapp.models.api.requests.UpdateQuotationRequest;
+import itu.eval_2.newapp.models.api.responses.ApiResponse;
+import itu.eval_2.newapp.models.api.responses.SupplierQuotationFromRequestResponse;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,9 +43,16 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
     }
 
     @Override
-    public SupplierQuotation getQuotationByRequestForQuotation(UserErpNext user, RequestForQuotation rfq)
+    public SupplierQuotation getQuotationByRequestForQuotation(UserErpNext user, RequestForQuotation rfq, String supplier)
             throws ERPNextIntegrationException {
-        callMethod(user,"Request for Quotation", null, rfq, null);
-        return new SupplierQuotation();
+
+        SupplierQuotationFromRequestRequest request  = new SupplierQuotationFromRequestRequest(rfq, supplier);
+        ApiResponse<?> response =  callApiResponseMethod(user,"eval_app.api.get_quotations_for_rfq", HttpMethod.GET, request, SupplierQuotationFromRequestResponse.class);
+        try {
+            String[] quotation_names = ((SupplierQuotationFromRequestResponse)response.getData()).unique_names;
+            return getQuotationById(user, quotation_names[0]);
+        } catch (Exception e) {
+            throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq.getName()+" | "+supplier+"}");
+        }
     }
 }
