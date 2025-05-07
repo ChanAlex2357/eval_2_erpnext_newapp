@@ -2,14 +2,19 @@ package itu.eval_2.newapp.controllers;
 
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
+import itu.eval_2.newapp.models.item.Item;
 import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
+import itu.eval_2.newapp.models.supplier.ErpNextSupplier;
 import itu.eval_2.newapp.models.user.UserErpNext;
+import itu.eval_2.newapp.services.frappe.item.ItemService;
 import itu.eval_2.newapp.services.frappe.quotation.QuotationService;
 import itu.eval_2.newapp.services.frappe.quotation.RequestQuotationService;
+import itu.eval_2.newapp.services.frappe.supplier.SupplierService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +33,44 @@ public class QuotationController {
     @Autowired
     private RequestQuotationService requestQuotationService;
 
+    @Autowired
+    private ItemService itemService;
+
+    @Autowired
+    private SupplierService supplierService;
+
+    @GetMapping("/form")
+    public String addQuotation(
+        HttpSession session,
+        Model model
+    ){
+        UserErpNext user = (UserErpNext)session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }   
+        List<Item> items = new ArrayList<>();
+        List<ErpNextSupplier> suppliers = new ArrayList<>();
+        try {
+            
+            try {
+                items = itemService.fetchAllItem(user);
+            } catch (Exception e) {
+                model.addAttribute("item_error", e);
+            }
+
+            try {
+                suppliers = supplierService.getAllSuppliers(user);
+                
+            } catch (Exception e) {
+                model.addAttribute("model_erroe", e);
+            }
+        } catch (Exception e) {
+            return "redirect:/";
+        }
+        model.addAttribute("suppliers", suppliers);
+        model.addAttribute("items", items);
+        return "/quotation/form";
+    }
 
     @GetMapping("/requests")
     public String requests(
