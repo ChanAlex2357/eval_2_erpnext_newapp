@@ -1,6 +1,8 @@
 package itu.eval_2.newapp.services.frappe.purchase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,14 @@ public class PurchaseOrderServiceImpl extends FrappeCRUDService<PurchaseOrder> i
     }
 
     @Override
-    public List<PurchaseOrder> getAllPurchaseOrders(UserErpNext user) throws ERPNextIntegrationException{
+    public List<PurchaseOrder> getAllPurchaseOrders(UserErpNext user, String supplier) throws ERPNextIntegrationException{
         String methodPath = "eval_app.api.get_purchase_orders_with_invoices";
-        ApiResponse<List<PurchaseOrder>> result = callApiListResponseMethod(user, methodPath, HttpMethod.GET, null, PurchaseOrder.class);
+
+        Map<String , String> body = new HashMap<>();
+        body.put("supplier_name",supplier);
+
+        ApiResponse<List<PurchaseOrder>> result = callApiListResponseMethod(user, methodPath, HttpMethod.GET, body, PurchaseOrder.class);
+
         List<PurchaseOrder> resultData = result.getData();
         return resultData;
     }

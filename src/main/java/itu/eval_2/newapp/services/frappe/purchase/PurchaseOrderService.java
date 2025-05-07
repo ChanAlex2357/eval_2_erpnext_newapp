@@ -7,6 +7,6 @@ import itu.eval_2.newapp.models.purchase.PurchaseOrder;
 import itu.eval_2.newapp.models.user.UserErpNext;
 
 public interface PurchaseOrderService {
-    public List<PurchaseOrder> getAllPurchaseOrders(UserErpNext user) throws ERPNextIntegrationException;
+    public List<PurchaseOrder> getAllPurchaseOrders(UserErpNext user,String supplier) throws ERPNextIntegrationException;
     // public ApiRessourceResponse<PurchaseOrder> getPurchaseOrderById(String id);
 }

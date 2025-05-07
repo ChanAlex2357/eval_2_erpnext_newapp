@@ -31,7 +31,7 @@ public class PurchaseOrderController {
         }
 
         try {
-            List<PurchaseOrder> purchaseOrders = purchaseOrderService.getAllPurchaseOrders(user);
+            List<PurchaseOrder> purchaseOrders = purchaseOrderService.getAllPurchaseOrders(user, supplier);
             log.info("= = = DATA ORDERS = = = ",purchaseOrders);
             model.addAttribute("orders", purchaseOrders);
         } catch (Exception e) {

@@ -25,6 +25,8 @@ public class PurchaseOrder extends FrappeDocument {
     @JsonIgnore
     private String invoiceStatus;
 
+    private Object invoices;
+
     // ***********************************************************
     
     // Items

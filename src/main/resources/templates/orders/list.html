@@ -16,6 +16,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>No.Sr</th>
+                        <!-- <th>supplier</th> -->
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -23,6 +24,7 @@
                     <!-- This would be populated dynamically from the server -->
                     <tr th:each="order : ${orders}">
                         <td th:text="${order.name}">QTN-0001</td>
+                        <!-- <td th:text="${order.supplier_name}">QTN-0001</td> -->
                         <td>
                             <span th:class="${order.status == 'Draft' ? 'badge bg-danger' : 
                                             order.status == 'To Receive and Bill' ? 'badge bg-warning' : 

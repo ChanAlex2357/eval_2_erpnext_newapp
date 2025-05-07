@@ -194,11 +194,12 @@ public class FrappeCRUDService<T extends FrappeDocument> {
     }
 
     public ApiResponse<List<T>> callApiListResponseMethod(UserErpNext user, String methodPath, HttpMethod method, Object body, Class<T> modelClass) throws ERPNextIntegrationException {
+        ResponseEntity<String> response = null;
         try {
             String url = apiConfig.getMethodUrl(methodPath);
             
-            ResponseEntity<String> response = frappeCall(user, url, method, body);
-            
+            response = frappeCall(user, url, method, body);
+   
             MethodApiResponse<ApiResponse<List<T>>> data = objectMapper.readValue(
                 response.getBody(), 
                 objectMapper.getTypeFactory().constructParametricType(
@@ -208,13 +209,13 @@ public class FrappeCRUDService<T extends FrappeDocument> {
                         objectMapper.getTypeFactory().constructParametricType(
                             List.class,
                             modelClass
-                        )
-                    )
-                )
+                            )
+                            )
+                            )
             );
             return data.getMessage();
         } catch (Exception e) {
-            throw new ERPNextIntegrationException("Error while calling the method \"" + methodPath + "\" : " + e.getMessage());
+            throw new ERPNextIntegrationException("Error while calling the method \"" + methodPath + "\" : " + e.getMessage(), response);
         }
     }
 }
