@@ -1,6 +1,8 @@
 package itu.eval_2.newapp.services.frappe.quotation;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,9 @@ public class RequestQuotationServiceImpl extends FrappeCRUDService<RequestForQuo
 
     @Override
     public List<RequestForQuotation> getAllRequestForQuotation(UserErpNext user, String supplier) throws ERPNextIntegrationException {
-
-        ApiResponse<List<RequestForQuotation>> response = callApiListResponseMethod(user,"eval_app.api.get_request_quotation_list",HttpMethod.GET,null,RequestForQuotation.class);
+        Map<String,String> body = new HashMap<>();
+        body.put("supplier", supplier);
+        ApiResponse<List<RequestForQuotation>> response = callApiListResponseMethod(user,"eval_app.api.get_request_quotation_list",HttpMethod.GET,body,RequestForQuotation.class);
         return response.getData();
     }
     

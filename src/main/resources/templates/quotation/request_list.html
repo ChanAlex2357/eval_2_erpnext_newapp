@@ -36,10 +36,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>No.Sr</th>
-                        <th>Supplier</th>
                         <th>Date</th>
-                        <th>Valid Till</th>
-                        <th>Total Amount</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -48,10 +45,7 @@
                     <!-- This would be populated dynamically from the server -->
                     <tr th:each="quotation : ${quotations}">
                         <td th:text="${quotation.name}">QTN-0001</td>
-                        <td th:text="${quotation.supplierName}">Supplier ABC</td>
                         <td th:text="${#temporals.format(quotation.creation, 'dd-MM-yyyy')}">01-01-2023</td>
-                        <td th:text="${quotation.validTill}">31-01-2023</td>
-                        <td th:text="${'$' + #numbers.formatDecimal(quotation.grandTotal, 1, 2)}">$1,000.00</td>
                         <td>
                             <span th:class="${quotation.status == 'Draft' ? 'badge bg-warning' : 
                                             quotation.status == 'Submitted' ? 'badge bg-primary' : 

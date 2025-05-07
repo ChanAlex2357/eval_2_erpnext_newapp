@@ -11,8 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @EqualsAndHashCode(callSuper = false)
 public class SupplierQuotation extends PurchaseBaseModel {
 
-    private Date transaction_date;
-
     public SupplierQuotation(){
         super("Supplier Quotation");
     }

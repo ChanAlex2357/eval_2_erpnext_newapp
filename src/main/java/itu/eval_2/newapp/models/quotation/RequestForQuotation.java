@@ -1,7 +1,11 @@
 package itu.eval_2.newapp.models.quotation;
 
 import itu.eval_2.newapp.models.action.FrappeDocument;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class RequestForQuotation extends FrappeDocument{
 
     public RequestForQuotation() {

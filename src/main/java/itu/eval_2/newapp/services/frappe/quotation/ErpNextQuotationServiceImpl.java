@@ -4,6 +4,7 @@ import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.api.requests.UpdateQuotationRequest;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
+import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
@@ -34,5 +35,12 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
     public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException 
     {
         updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation) , SupplierQuotation.class);
+    }
+
+    @Override
+    public SupplierQuotation getQuotationByRequestForQuotation(UserErpNext user, RequestForQuotation rfq)
+            throws ERPNextIntegrationException {
+        callMethod(user,"Request for Quotation", null, rfq, null);
+        return new SupplierQuotation();
     }
 }
