@@ -11,4 +11,10 @@ public class SupplierQuotationFromRequestRequest implements RequestModel{
         setRfq_name(rfq.getName());
         setSupplier(supplier);
     }
+
+    public SupplierQuotationFromRequestRequest(String rfq, String supplier){
+        setRfq_name(rfq);
+        setSupplier(supplier);
+    }
+
 }

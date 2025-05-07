@@ -1,5 +1,6 @@
 package itu.eval_2.newapp.controllers;
 
+import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
@@ -90,6 +91,30 @@ public class QuotationController {
         return "quotation/edit";
     }
 
+    @GetMapping("/requests/{id}/supplier/{supplier}")
+    public String viewFromRequest(
+        @PathVariable("id") String id,
+        @PathVariable("supplier") String supplier,
+        Model model,
+        RedirectAttributes redirectAttribute,
+        HttpSession session
+    ){
+
+        UserErpNext user = (UserErpNext) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            SupplierQuotation quotation  = quotationService.getQuotationByRequestForQuotation(user, id, supplier);
+            model.addAttribute("quotation", quotation);
+        } catch (ERPNextIntegrationException e) {
+            redirectAttribute.addFlashAttribute("error", "Failed to get quotation: " + e.getMessage());
+            return "redirect:/quotations/requests";
+        }
+        return "quotation/edit";
+    }
+
     @PostMapping("/{id}/update")
     public String updateQuotation(
             @PathVariable("id") String id,
@@ -104,8 +129,10 @@ public class QuotationController {
         try {
             quotationService.updateQuotation(user, id, quotation);
             redirectAttributes.addFlashAttribute("success", "Quotation updated successfully.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to update quotation: " + e.getMessage());
+
+        } catch (ERPNextIntegrationException e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to get quotation: " + e.getMessage());
+
         }
 
         return "redirect:/quotations/" + id;

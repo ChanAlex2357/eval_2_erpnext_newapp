@@ -53,8 +53,9 @@
                                   th:text="${quotation.status}">Draft</span>
                         </td>
                         <td>
-                            <a th:href="@{/quotations/{id}(id=${quotation.name})}" class="btn btn-sm btn-info">View</a>
-                            <!-- <a th:href="@{/quotations/{id}/edit(id=${quotation.name})}" class="btn btn-sm btn-warning">Edit Price</a> -->
+                            <div th:if="${filter.supplier_name != null && filter.supplier_name != ''}">
+                                <a th:href="@{/quotations/requests/{id}/supplier/{supplier}(id=${quotation.name},supplier=${filter.supplier_name})}" class="btn btn-sm btn-warning">Edit Price</a>
+                            </div>
                         </td>
                     </tr>
                     <tr th:unless="${quotations != null and !quotations.isEmpty()}">

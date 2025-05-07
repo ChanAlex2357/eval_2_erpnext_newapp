@@ -43,7 +43,7 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
     }
 
     @Override
-    public SupplierQuotation getQuotationByRequestForQuotation(UserErpNext user, RequestForQuotation rfq, String supplier)
+    public SupplierQuotation getQuotationByRequestForQuotation(UserErpNext user, String rfq, String supplier)
             throws ERPNextIntegrationException {
 
         SupplierQuotationFromRequestRequest request  = new SupplierQuotationFromRequestRequest(rfq, supplier);
@@ -52,7 +52,7 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
             String[] quotation_names = ((SupplierQuotationFromRequestResponse)response.getData()).unique_names;
             return getQuotationById(user, quotation_names[0]);
         } catch (Exception e) {
-            throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq.getName()+" | "+supplier+"}");
+            throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq+" | "+supplier+"}");
         }
     }
 }
