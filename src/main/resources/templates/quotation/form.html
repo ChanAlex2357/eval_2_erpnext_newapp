@@ -13,6 +13,22 @@
 </head>
 <body>
 
+    <div>
+        <h3>Errors</h3>
+        <div th:if="${item_error != null}">
+            <p th:text="${item_error}"></p>
+        </div>
+
+        <div th:if="${warehouse_error != null}">
+            <p th:text="${warehouse_error}"></p>
+        </div>
+
+        <div th:if="${supplier_error != null}">
+            <p th:text="${supplier_error}"></p>
+        </div>
+    </div>
+
+    <hr>
     <div class="contaniner">
         <div class="row">
             <div class="card">

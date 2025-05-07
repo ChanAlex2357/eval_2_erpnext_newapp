@@ -3,10 +3,12 @@ package itu.eval_2.newapp.controllers;
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.item.Item;
+import itu.eval_2.newapp.models.item.Warehouse;
 import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.supplier.ErpNextSupplier;
 import itu.eval_2.newapp.models.user.UserErpNext;
+import itu.eval_2.newapp.services.frappe.WarehouseService;
 import itu.eval_2.newapp.services.frappe.item.ItemService;
 import itu.eval_2.newapp.services.frappe.quotation.QuotationService;
 import itu.eval_2.newapp.services.frappe.quotation.RequestQuotationService;
@@ -34,6 +36,9 @@ public class QuotationController {
     private RequestQuotationService requestQuotationService;
 
     @Autowired
+    private WarehouseService warehouseService;
+
+    @Autowired
     private ItemService itemService;
 
     @Autowired
@@ -50,6 +55,8 @@ public class QuotationController {
         }   
         List<Item> items = new ArrayList<>();
         List<ErpNextSupplier> suppliers = new ArrayList<>();
+        List<Warehouse> warehouses = new ArrayList<>();
+
         try {
             
             try {
@@ -60,10 +67,17 @@ public class QuotationController {
 
             try {
                 suppliers = supplierService.getAllSuppliers(user);
-                
             } catch (Exception e) {
-                model.addAttribute("model_erroe", e);
+                model.addAttribute("supplier_error", e);
             }
+        
+            try {
+                warehouses = warehouseService.fetcWarehouses(user);
+            } catch (Exception e) {
+                model.addAttribute("warehouse_error", e);
+            }
+
+
         } catch (Exception e) {
             return "redirect:/";
         }
