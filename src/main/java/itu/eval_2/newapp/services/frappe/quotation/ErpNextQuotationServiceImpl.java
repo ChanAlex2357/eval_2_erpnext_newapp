@@ -7,7 +7,6 @@ import itu.eval_2.newapp.models.api.requests.UpdateQuotationRequest;
 import itu.eval_2.newapp.models.api.responses.ApiResponse;
 import itu.eval_2.newapp.models.api.responses.SupplierQuotationFromRequestResponse;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
-import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.FrappeCRUDService;

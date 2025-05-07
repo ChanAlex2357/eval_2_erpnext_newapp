@@ -2,7 +2,6 @@ package itu.eval_2.newapp.services.frappe.quotation;
 
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
-import itu.eval_2.newapp.models.quotation.RequestForQuotation;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
 
