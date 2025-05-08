@@ -33,15 +33,22 @@
         <div class="row">
             <div class="card">
                 <div class="card-titlte">Formulaire de quotation</div>
-                <form action="" method="post">
+                <form th:action="@{/quotations/create}" method="post">
                     <div>
                         <label for="">Supplier</label>
-                        <input readonly type="text" name="supplier_name" value="Supplier Name">
+                        <input readonly type="text" th:name="supplier" th:value="${form_data.supplier}">
+                    </div>
+
+                    <div>
+                        <label for="">Warehouse</label>
+                            <select th:name="warehouse" id="">
+                                <option value="All Warehouse - IE2">All Warehouse - IE2</option>
+                            </select>
                     </div>
 
                     <h3>Quotation details</h3>
-                        <input type="date" name="date" id="">
-                        <select name="purpose" id="">
+                        <input type="date" th:name="date" id="">
+                        <select th:name="purpose" id="">
                             <option value="purchase">Purchase</option>
                         </select>
                     <h3>Items</h3>
@@ -50,35 +57,35 @@
                         <thead>
                             <tr>
                                 <th>Item Code</th>
-                                <th>Required by</th>
                                 <th>Quantite</th>
-                                <th>Warehouse</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <select name="" id="">
-                                        <option value="">Item</option>
+                                    <select  th:name="item[]" >
+                                        <option th:each="item : ${items}" th:value="${item.name}"><p th:text="${item.item_code}"></p></option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="date" name="required_by" id="">
+                                    <input type="number" th:name="quantite[]" id="" value="1">
                                 </td>
+                            </tr>
+                            <tr>
                                 <td>
-                                    <input type="number" name="quantite" id="">
-                                </td>
-                                <td>
-                                    <select name="warehouse" id="">
-                                        <option value="w1">W1</option>
+                                    <select  th:name="item[]" >
+                                        <option th:each="item : ${items}" th:value="${item.name}"><p th:text="${item.item_code}"></p></option>
                                     </select>
+                                </td>
+                                <td>
+                                    <input type="number" th:name="quantite[]" id="" value="1">
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
                     <button>add Item</button>
-
+                    <button type="submit">Valilder</button>
                 </form>
             </div>
         </div>

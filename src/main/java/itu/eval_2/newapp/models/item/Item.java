@@ -2,8 +2,10 @@ package itu.eval_2.newapp.models.item;
 
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Item extends FrappeDocument {
 
     public Item(){

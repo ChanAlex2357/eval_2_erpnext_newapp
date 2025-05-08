@@ -1,6 +1,7 @@
 package itu.eval_2.newapp.controllers;
 
 import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.models.QuotationFormData;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.item.Item;
 import itu.eval_2.newapp.models.item.Warehouse;
@@ -15,7 +16,6 @@ import itu.eval_2.newapp.services.frappe.quotation.RequestQuotationService;
 import itu.eval_2.newapp.services.frappe.supplier.SupplierService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,8 @@ public class QuotationController {
     @GetMapping("/form")
     public String addQuotation(
         HttpSession session,
-        Model model
+        Model model,
+        @RequestParam("supplier") String supplier
     ){
         UserErpNext user = (UserErpNext)session.getAttribute("user");
         if (user == null) {
@@ -81,9 +82,37 @@ public class QuotationController {
         } catch (Exception e) {
             return "redirect:/";
         }
+
+        QuotationFormData formData = new QuotationFormData();
+        formData.setSupplier(supplier);
+
         model.addAttribute("suppliers", suppliers);
         model.addAttribute("items", items);
+        model.addAttribute("warehouses", warehouses);
+        model.addAttribute("form_data", formData);
+
         return "/quotation/form";
+    }
+
+    @PostMapping("/create")
+    public String create(
+        RedirectAttributes redirectAttributes,
+        @ModelAttribute QuotationFormData formData,
+        HttpSession session
+    ){
+        UserErpNext user = (UserErpNext)session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }   
+        
+        try {
+            requestQuotationService.createRequestForQuotation(user, formData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/suppliers"; 
+        }
+        return "redirect:/quotations/requests";
+
     }
 
     @GetMapping("/requests")

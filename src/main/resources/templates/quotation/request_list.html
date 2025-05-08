@@ -29,6 +29,12 @@
                 </div>
             </div>
         </form>
+
+        <form th:action="@{/quotations/form}" method="get">
+            <input type="hidden" th:value="${filter.supplier_name}"name="supplier">
+            <button type="submit" class="btn btn-info text-white">Add item</button>
+        </form>
+    
         
         <!-- Quotations Table -->
         <div class="table-responsive">
