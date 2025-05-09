@@ -51,7 +51,12 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
             String[] quotation_names = ((SupplierQuotationFromRequestResponse)response.getData()).unique_names;
             return getQuotationById(user, quotation_names[0]);
         } catch (Exception e) {
-            throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq+" | "+supplier+"}");
+            try {
+                callMethod(user, supplier, "erpnext.buying.doctype.request_for_quotation.request_for_quotation", e, null)
+            } catch (Exception ex) {
+                // TODO: handle exception
+                throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq+" | "+supplier+"}");
+            }
         }
     }
 }
