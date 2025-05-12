@@ -26,14 +26,13 @@
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-success text-white mt-4">Filter</button>
                     <button type="button" onclick="clearFilter()" class="btn btn-secondary text-white mt-4 ms-2">Clear</a>
+                    </div>
                 </div>
-            </div>
-        </form>
-
-        <form th:action="@{/quotations/form}" method="get">
-            <input type="hidden" th:value="${filter.supplier_name}"name="supplier">
-            <button type="submit" class="btn btn-info text-white">Add item</button>
-        </form>
+            </form>
+            <form th:action="@{/quotations/form}" method="get">
+                <input type="hidden" th:value="${filter.supplier_name}"name="supplier">
+                <button type="submit" class="btn btn-info text-white">Add Request</button>
+            </form>
     
         
         <!-- Quotations Table -->

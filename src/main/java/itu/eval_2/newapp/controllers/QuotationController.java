@@ -195,6 +195,7 @@ public class QuotationController {
             SupplierQuotation quotation  = quotationService.getQuotationByRequestForQuotation(user, id, supplier);
             model.addAttribute("quotation", quotation);
         } catch (ERPNextIntegrationException e) {
+            e.printStackTrace();
             redirectAttribute.addFlashAttribute("error", "Failed to get quotation: " + e.getMessage());
             return "redirect:/quotations/requests";
         }

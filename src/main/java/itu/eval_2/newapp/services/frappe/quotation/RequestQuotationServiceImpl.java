@@ -35,6 +35,7 @@ public class RequestQuotationServiceImpl extends FrappeCRUDService<RequestForQuo
     public void createRequestForQuotation(UserErpNext user, QuotationFormData formData) throws ERPNextIntegrationException {
         RequestForQuotation rfq = new RequestForQuotation();
         rfq.init(formData);
+        rfq.setDocstatus(1);
         createDocument(user, rfq, RequestForQuotation.class);
     }
     

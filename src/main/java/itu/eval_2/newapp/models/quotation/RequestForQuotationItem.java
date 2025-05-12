@@ -10,7 +10,7 @@ public class RequestForQuotationItem extends ItemChild {
     private int quantite;
     private String warehouse;
     private String uom = "Unit";
-    private String conversion_factor = "Unit";
+    private String conversion_factor = "1";
     public RequestForQuotationItem(){
         super("RequestForQuotationItem");
     }

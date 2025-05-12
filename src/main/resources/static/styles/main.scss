@@ -34,13 +34,18 @@ $shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 2rem;
 }
 
+body {
+  display: flex;
+  flex-direction: row;
+}
+
 .auth-container {
   width: 100%;
   max-width: 420px;
 }
 
 .auth-card {
-  background: white;
+  background: rgb(255, 146, 146);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;

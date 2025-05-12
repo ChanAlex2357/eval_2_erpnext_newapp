@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class RequestForQuotation extends FrappeDocument{
-    private int ref;
+    private String ref;
     private Date trasaction_date;
     public RequestForQuotation() {
         super("Request for Quotation");
