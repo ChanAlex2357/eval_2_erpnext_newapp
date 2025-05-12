@@ -14,14 +14,9 @@
         <div th:replace="~{fragments/top-header :: top-header}"></div>
         <div class="content-container">
             <div th:replace="~{fragments/menu :: menu}"></div>
-            <main class="">
-                <div class="">
-                    <div class="">
-                        <div class="profile-header">
-                            <h1>User Profile</h1>
-                            <p class="profile-subtitle">Manage your account information</p>
-                        </div>
-            
+            <main class="container mt-3">
+                <div class="card p-2">
+                    <div class="card-body">
                         <div class="profile-content">
                             <div class="profile-avatar">
                                 <div class="avatar-placeholder">
@@ -30,36 +25,35 @@
                             </div>
             
                             <div class="profile-details">
-                                <div class="detail-group">
-                                    <label>Full Name</label>
-                                    <p th:text="${user.fullName}">Loading...</p>
+                                <div class="row">
+                                    <div class="form-group mb-3 col">
+                                        <label>Full Name</label>
+                                        <input type="text" title="" class="form-control" th:value="${user.fullName}">
+                                    </div>
+                                    
+                                    <div class="form-group mb-3 col">
+                                        <label>Username</label>
+                                        <input type="text" title="" class="form-control" th:value="${user.username}">
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="form-group mb-3 col">
+                                        <label>Email</label>
+                                        <input type="text" title="" class="form-control" th:value="${user.email}">
+                                    </div>
+                                    
+                                    <div class="form-group mb-3 col">
+                                        <label>Token</label>
+                                        <input type="text" title="" class="form-control" th:value="${user.getAuthToken()}">
+                                    </div>
                                 </div>
             
-                                <div class="detail-group">
-                                    <label>Username</label>
-                                    <p th:text="${user.username}">Loading...</p>
-                                </div>
-            
-                                <div class="detail-group">
-                                    <label>Email</label>
-                                    <p th:text="${user.email}">Loading...</p>
-                                </div>
-            
-                                <div class="detail-group">
-                                    <label>Token</label>
-                                    <p th:text="${user.getAuthToken()}">Loading...</p>
-                                </div>
-            
-                                <div class="detail-group">
+                                <div class="form-group mb-3 ">
                                     <label>Account Status</label>
-                                    <p class="status-active" th:if="${user.isAuthenticated()}">Active</p>
-                                    <p class="status-inactive" th:unless="${user.isAuthenticated()}">Inactive</p>
+                                    <input  class="status-active form-control" type="text" readonly value="Active" th:if="${user.isAuthenticated()}">
+                                    <input class="status-inactive form-control" type="text" readonly value="Inactive" th:unless="${user.isAuthenticated()}">
                                 </div>
-                            </div>
-            
-                            <div class="profile-actions">
-                                <a th:href="@{/auth/logout}" class="btn-logout">Logout</a>
-                                <a th:href="@{/user/profile/edit}" class="btn-edit">Edit Profile</a>
                             </div>
                         </div>
                     </div>
