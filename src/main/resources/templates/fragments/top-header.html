@@ -1,0 +1,14 @@
+<div th:fragment="top-header" class="top-header">
+    <div class="header-container">
+        <div class="header-actions">
+            <div class="user-menu" th:if="${session.user != null}">
+                <span class="user-greeting">Hello, <span th:text="${session.user.fullName}">User</span></span>
+                <a th:href="@{/auth/logout}" class="btn-logout">Logout</a>
+            </div>
+            <div class="auth-actions" th:unless="${session.user != null}">
+                <a th:href="@{/auth/login}" class="btn-login">Login</a>
+                <a th:href="@{/auth/register}" class="btn-register">Register</a>
+            </div>
+        </div>
+    </div>
+</div>

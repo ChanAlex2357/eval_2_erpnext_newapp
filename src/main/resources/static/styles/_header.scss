@@ -1,0 +1,43 @@
+@use "variables" as vars;
+
+// Top Header
+.top-header {
+  grid-area: 1 / 1 / 2 /-1 ;
+  background-color: vars.$dark-color;
+}
+// Header Styles
+.site-header {
+  background-color: white;
+  box-shadow: vars.$shadow-sm;
+  top: 0;
+  padding: 1rem 0;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-brand {
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    
+    .logo-img {
+      height: 40px;
+      margin-right: 0.75rem;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: vars.$primary-color;
+    }
+  }
+}
