@@ -16,8 +16,8 @@
 }
 
 .top-header {
-  grid-area: 1/1/2/-1;
   background-color: #2c3e50;
+  color: #fff;
 }
 
 .site-header {
