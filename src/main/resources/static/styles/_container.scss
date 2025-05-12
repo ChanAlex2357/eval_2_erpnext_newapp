@@ -4,11 +4,9 @@
   flex-direction: column;
   // grid-template-columns: 1fr 6fr;
 }
-
-
 // Content Container
 .content-container{
   display: grid;
   grid-template-columns: 1fr 6fr;
-
+  grid-template-rows: 100dvh;
 }
