@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class LeadService extends FrappeCRUDService {
+public class LeadService extends FrappeCRUDService<Leads> {
     public LeadService(ApiConfig apiConfig, RestTemplate restTemplate) {
         super(apiConfig, restTemplate);
     }

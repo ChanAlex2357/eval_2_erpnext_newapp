@@ -3,8 +3,10 @@ package itu.eval_2.newapp.models.crm;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Leads extends FrappeDocument {
     private String salutation;
 
