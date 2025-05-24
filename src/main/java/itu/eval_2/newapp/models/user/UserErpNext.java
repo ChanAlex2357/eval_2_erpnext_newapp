@@ -9,6 +9,7 @@ public class UserErpNext {
     private String username;
     private String email;
     private String fullName;
+    private UserRole[] roles ;
 
     public UserErpNext(String sid, String apiKey, String apiSecret, 
                      String username, String email, String fullName) {
@@ -29,5 +30,14 @@ public class UserErpNext {
             throw new SecurityException("User not authenticated "+keys+"  "+keys.isValid());
         }
         return "token " + getKeys().getAuthorizationKeys();
+    }
+
+    public boolean hasRole(String roleToCheck){
+        for (UserRole role : this.roles){
+            if (role.getRole().equals(roleToCheck)) {
+                return  true;
+            }
+        }
+        return  false;
     }
 }

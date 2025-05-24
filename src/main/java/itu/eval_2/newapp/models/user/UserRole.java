@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class UserRole extends FrappeDocument {
 
-    private  String role;
+    private String role;
     private String parent;
     @JsonProperty("parentfield")
     private String parentField;
