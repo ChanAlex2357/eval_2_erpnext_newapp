@@ -1,9 +1,34 @@
 # TODO ERPNext E-commerce
 
 - [ ] Customer User
-    - [ ] Erpnext process
-        - [ ] Create Customer
-        - [ ] Create User
-        - [ ] Associate Customer to User
-        - [ ] Change password of the user
-- [ ]
+  - [ ] Erpnext process
+    - [ ] Create Customer
+    - [ ] Create User
+    - [ ] Associate Customer to User
+    - [ ] Change password of the user
+  - [ ] Sales process
+    - [ ] Quotation
+    - [ ] Sales Order
+    - [ ] Sales Invoice
+    - [ ] Delivery Note
+    - [ ] Shippement
+  - [ ] Observe sales status
+- [ ] Newapp
+  - [ ] Login for Customer
+    - [ ] Check role
+    - [ ] Check password
+    - [ ] redirection formulaire de mis a jour de mot de passe si le mot de passe n'a pas ete definie
+    - [ ] redirection to e-commerce page
+  - [ ] Sign up for Customer
+    - [ ] check existance
+    - [ ] if doesn't exist
+      - [ ] create new customer
+      - [ ] create user
+      - [ ] update user password
+    - [ ] if exist
+      - [ ] afficher contrainte d'existance
+  - [ ] Liste des produits avec quantite en stock
+    - [ ] fonctionalite d'ajout au panier
+  - [ ] Effectuer une commande
+  - [ ] Payer la commande
+  - [ ] suivie de l'etat de la commande
