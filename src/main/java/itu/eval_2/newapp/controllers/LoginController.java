@@ -66,11 +66,16 @@ public String processLogin(
             
             session.setAttribute("token", user.getAuthToken());
             session.setAttribute("user", user);
-            
+
             // Set session timeout (30 minutes)
             session.setMaxInactiveInterval(30 * 60);
-            
-            return "redirect:/user/profile";
+
+            if (user.hasRole("Administrator")){
+                return "redirect:/user/profile";
+            }
+            return "redirect:/shop";
+
+
         } else {
             redirectAttributes.addFlashAttribute("error", 
                 body != null ? body.getMessage() : "Login failed");

@@ -18,7 +18,7 @@ public class UserController {
     public String getMethodName(HttpSession session,Model model) {
         UserErpNext user = (UserErpNext) session.getAttribute("user");
         if (user == null) {
-            return "/auth/login";
+            return "redirect:/auth/login";
         }
         model.addAttribute("user", user);
         return "/user/profile";
