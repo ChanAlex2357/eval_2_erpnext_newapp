@@ -2,10 +2,10 @@
 
 - [ ] Customer User
   - [ ] Erpnext process
-    - [ ] Create Customer
-    - [ ] Create User
-    - [ ] Associate Customer to User
-    - [ ] Change password of the user
+    - [x] Create Customer
+    - [x] Create User
+    - [x] Associate Customer to User
+    - [x] Change password of the user
   - [ ] Sales process
     - [ ] Quotation
     - [ ] Sales Order
@@ -22,9 +22,9 @@
   - [ ] Sign up for Customer
     - [ ] check existance
     - [ ] if doesn't exist
-      - [ ] create new customer
       - [ ] create user
       - [ ] update user password
+      - [ ] create customer from the user information
     - [ ] if exist
       - [ ] afficher contrainte d'existance
   - [ ] Liste des produits avec quantite en stock
