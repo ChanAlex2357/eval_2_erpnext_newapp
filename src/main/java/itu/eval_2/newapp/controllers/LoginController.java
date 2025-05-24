@@ -77,6 +77,7 @@ public String processLogin(
             return "redirect:/auth/login";
         }
     } catch (HttpClientErrorException e) {
+        log.error("Invalid credentials error", e);
         redirectAttributes.addFlashAttribute("error", "Invalid credentials");
         return "redirect:/auth/login";
     } catch (Exception e) {

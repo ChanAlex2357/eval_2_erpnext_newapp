@@ -148,11 +148,11 @@ public class QuotationController {
             return "redirect:/auth/login";
         }
 
+        SupplierQuotationFilter filter = new SupplierQuotationFilter(supplier);
+        model.addAttribute("filter", filter);
         try {
-            SupplierQuotationFilter filter = new SupplierQuotationFilter(supplier);
             List<SupplierQuotation> quotations = quotationService.getAllQuotations(user,filter);
             model.addAttribute("quotations", quotations);
-            model.addAttribute("filter", filter);
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch quotations: " + e.getMessage());
         }
