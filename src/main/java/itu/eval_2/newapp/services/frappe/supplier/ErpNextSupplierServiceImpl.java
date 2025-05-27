@@ -6,22 +6,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import itu.eval_2.newapp.config.ApiConfig;
-import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.exceptions.ERPNexException;
 import itu.eval_2.newapp.models.supplier.ErpNextSupplier;
 import itu.eval_2.newapp.models.user.UserErpNext;
-import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
+import itu.eval_2.newapp.services.frappe.FrappeWebService;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ErpNextSupplierServiceImpl extends FrappeCRUDService<ErpNextSupplier> implements SupplierService {
+public class ErpNextSupplierServiceImpl extends FrappeWebService<ErpNextSupplier> implements SupplierService {
 
     public ErpNextSupplierServiceImpl(ApiConfig apiConfig, RestTemplate restTemplate) {
         super(apiConfig, restTemplate);
     }
 
     @Override
-    public List<ErpNextSupplier> getAllSuppliers(UserErpNext user) throws ERPNextIntegrationException {
+    public List<ErpNextSupplier> getAllSuppliers(UserErpNext user) throws ERPNexException {
         return getAllDocuments(user, new ErpNextSupplier(), ErpNextSupplier.class);
     }
 }

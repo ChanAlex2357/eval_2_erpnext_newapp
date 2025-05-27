@@ -1,6 +1,6 @@
 package itu.eval_2.newapp.controllers;
 
-import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.exceptions.ERPNexException;
 import itu.eval_2.newapp.models.QuotationFormData;
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.item.Item;
@@ -194,7 +194,7 @@ public class QuotationController {
         try {
             SupplierQuotation quotation  = quotationService.getQuotationByRequestForQuotation(user, id, supplier);
             model.addAttribute("quotation", quotation);
-        } catch (ERPNextIntegrationException e) {
+        } catch (ERPNexException e) {
             e.printStackTrace();
             redirectAttribute.addFlashAttribute("error", "Failed to get quotation: " + e.getMessage());
             return "redirect:/quotations/requests";
@@ -217,7 +217,7 @@ public class QuotationController {
             quotationService.updateQuotation(user, id, quotation);
             redirectAttributes.addFlashAttribute("success", "Quotation updated successfully.");
 
-        } catch (ERPNextIntegrationException e) {
+        } catch (ERPNexException e) {
             redirectAttributes.addFlashAttribute("error", "Failed to get quotation: " + e.getMessage());
 
         }

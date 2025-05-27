@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.exceptions.ERPNexException;
 import itu.eval_2.newapp.models.purchase.PurchaseOrder;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.purchase.PurchaseOrderService;
@@ -44,7 +44,7 @@ public class PurchaseOrderApiController {
             Map<String,Object> body = new HashMap<>();
             body.put("data", orders);
             return ResponseEntity.ok().body(body);
-        } catch (ERPNextIntegrationException e) {
+        } catch (ERPNexException e) {
             if (e.getResponse() != null) {
                 return e.getResponse();
             }

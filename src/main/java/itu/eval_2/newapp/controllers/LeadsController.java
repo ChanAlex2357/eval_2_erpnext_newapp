@@ -1,6 +1,6 @@
 package itu.eval_2.newapp.controllers;
 
-import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.exceptions.ERPNexException;
 import itu.eval_2.newapp.models.crm.Leads;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.crm.leads.LeadService;
@@ -34,7 +34,7 @@ public class LeadsController {
         List<Leads> leads = new ArrayList<>();
         try {
             leads = leadService.getLeads(user);
-        } catch (ERPNextIntegrationException e) {
+        } catch (ERPNexException e) {
             throw new RuntimeException(e);
         }
 

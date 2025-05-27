@@ -9,18 +9,18 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ERPNextIntegrationException extends Exception {
+public class ERPNexException extends Exception {
     public ApiResponse<?> error_data;
     public ApiResponseWrapper<String> error_message_data;
     public ResponseEntity<String> response;
-    public ERPNextIntegrationException(String message , Throwable e){
+    public ERPNexException(String message , Throwable e){
         super(message, e);
     }
-    public ERPNextIntegrationException(String message){
+    public ERPNexException(String message){
         super(message);
     }
 
-    public ERPNextIntegrationException(String message, ResponseEntity<String> response){
+    public ERPNexException(String message, ResponseEntity<String> response){
         super(message);
         setResponse(response);
     }

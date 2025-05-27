@@ -1,7 +1,7 @@
 package itu.eval_2.newapp.services.frappe.quotation;
 
 import itu.eval_2.newapp.config.ApiConfig;
-import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.exceptions.ERPNexException;
 import itu.eval_2.newapp.models.api.requests.SupplierQuotationFromRequestRequest;
 import itu.eval_2.newapp.models.api.requests.UpdateQuotationRequest;
 import itu.eval_2.newapp.models.api.responses.ApiResponse;
@@ -9,7 +9,7 @@ import itu.eval_2.newapp.models.api.responses.SupplierQuotationFromRequestRespon
 import itu.eval_2.newapp.models.filter.SupplierQuotationFilter;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
 import itu.eval_2.newapp.models.user.UserErpNext;
-import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
+import itu.eval_2.newapp.services.frappe.FrappeWebService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpMethod;
@@ -22,30 +22,30 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuotation> implements QuotationService {
+public class ErpNextQuotationServiceImpl extends FrappeWebService<SupplierQuotation> implements QuotationService {
     public ErpNextQuotationServiceImpl(ApiConfig apiConfig, RestTemplate restTemplate) {
         super(apiConfig,restTemplate);
     }
 
     @Override
-    public List<SupplierQuotation> getAllQuotations(UserErpNext user, SupplierQuotationFilter filter) throws ERPNextIntegrationException {
+    public List<SupplierQuotation> getAllQuotations(UserErpNext user, SupplierQuotationFilter filter) throws ERPNexException {
         return getAllDocuments(user, new SupplierQuotation(),filter, SupplierQuotation.class);
     }
 
     @Override
-    public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNextIntegrationException {
+    public SupplierQuotation getQuotationById(UserErpNext user, String id) throws ERPNexException {
         return getDocumentById(user, id, new SupplierQuotation(), SupplierQuotation.class);
     }
 
     @Override
-    public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException 
+    public void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNexException
     {
         updateDocument(user, id, quotation, new UpdateQuotationRequest(quotation) , SupplierQuotation.class);
     }
 
     @Override
     public SupplierQuotation getQuotationByRequestForQuotation(UserErpNext user, String rfq, String supplier)
-            throws ERPNextIntegrationException {
+            throws ERPNexException {
 
         SupplierQuotationFromRequestRequest request  = new SupplierQuotationFromRequestRequest(rfq, supplier);
         ApiResponse<?> response =  callApiResponseMethod(user,"eval_app.api.get_quotations_for_rfq", HttpMethod.GET, request, SupplierQuotationFromRequestResponse.class);
@@ -60,7 +60,7 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
                 return callMethod(user, "erpnext.buying.doctype.request_for_quotation.request_for_quotation", HttpMethod.GET, body, SupplierQuotation.class);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq+" | "+supplier+"}");
+                throw new ERPNexException("Supplier Quotation introuvable pour la paire {"+rfq+" | "+supplier+"}");
             }
         }
     }

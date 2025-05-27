@@ -5,10 +5,10 @@ import org.springframework.web.client.RestTemplate;
 
 import itu.eval_2.newapp.config.ApiConfig;
 import itu.eval_2.newapp.models.quotation.SupplierQuotation;
-import itu.eval_2.newapp.services.frappe.FrappeCRUDService;
+import itu.eval_2.newapp.services.frappe.FrappeWebService;
 
 @Service
-public class SupplierQuotationService extends FrappeCRUDService<SupplierQuotation> {
+public class SupplierQuotationService extends FrappeWebService<SupplierQuotation> {
 
     public SupplierQuotationService(ApiConfig apiConfig, RestTemplate restTemplate) {
         super(apiConfig, restTemplate);

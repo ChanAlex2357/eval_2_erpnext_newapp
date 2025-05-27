@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import itu.eval_2.newapp.exceptions.ERPNextIntegrationException;
+import itu.eval_2.newapp.exceptions.ERPNexException;
 import itu.eval_2.newapp.models.supplier.ErpNextSupplier;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.supplier.SupplierService;
@@ -54,7 +54,7 @@ public class SupplierApiController {
                     "count", suppliers.size()
                 ));
                 
-        } catch (ERPNextIntegrationException e) {
+        } catch (ERPNexException e) {
             // 4. Handle ERPNext-specific errors
             log.error("ERPNext integration failed for user {}: {}", user.getUsername(), e.getMessage());
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
