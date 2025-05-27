@@ -20,7 +20,7 @@ public class ApiResponseWrapper<T> {
         return getMessage().isSuccess();
     }
     
-    public List<String> errors(){
+    public Object errors(){
         return getMessage().getErrors();
     }
 }

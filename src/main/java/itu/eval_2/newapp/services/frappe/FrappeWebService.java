@@ -2,10 +2,13 @@ package itu.eval_2.newapp.services.frappe;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import itu.eval_2.newapp.config.ApiConfig;
+import itu.eval_2.newapp.exceptions.AuthenticationException;
 import itu.eval_2.newapp.exceptions.ERPNexException;
+import itu.eval_2.newapp.exceptions.ErpNextCallException;
 import itu.eval_2.newapp.models.action.FrappeDocument;
 import itu.eval_2.newapp.models.api.responses.ApiResourceResponse;
 import itu.eval_2.newapp.models.api.responses.ApiResponse;
@@ -51,19 +54,24 @@ public class FrappeWebService<T extends FrappeDocument> {
             ResponseEntity<String> response = callResource(user, document, null, null, HttpMethod.GET, ApiConfig.ALL_FIELDS, filter);
 
             ApiResourceResponse<T> result = objectMapper.readValue(
-                response.getBody(),
-                objectMapper.getTypeFactory().constructParametricType(
-                    ApiResourceResponse.class,
-                    modelClass
-                )
+                    response.getBody(),
+                    objectMapper.getTypeFactory().constructParametricType(
+                            ApiResourceResponse.class,
+                            modelClass
+                    )
             );
 
             return result.getData();
-        } catch (RestClientException | JsonProcessingException e) {
+        } catch (ErpNextCallException e) {
             throw new ERPNexException(
-                String.format("Failed to fetch %s documents: %s", document.getDoctype(), e.getMessage()), 
+                String.format("Failed to fetch %s documents: %s", document.getDoctype(), e.getMessage()),
                 e
             );
+        }
+        catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -81,11 +89,15 @@ public class FrappeWebService<T extends FrappeDocument> {
             );
 
             return result.getData();
-        } catch (RestClientException | JsonProcessingException e) {
+        } catch (ErpNextCallException e) {
             throw new ERPNexException(
                 String.format("Failed to fetch %s document with ID %s: %s", document.getDoctype(), id, e.getMessage()),
                 e
             );
+        } catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -93,7 +105,7 @@ public class FrappeWebService<T extends FrappeDocument> {
         return updateDocument(user, id, document, document,modelClass);
     }
 
-    public T updateDocument(UserErpNext user, String id, T document, Object body , Class<T> modelClass) 
+    public T updateDocument(UserErpNext user, String id, T document, Object body , Class<T> modelClass)
         throws ERPNexException {
         document.update_cotnrole();
         return callForUpdateOrCreateResource(user, id, document, body, HttpMethod.PUT,modelClass);
@@ -142,11 +154,15 @@ public class FrappeWebService<T extends FrappeDocument> {
      * @param filter un filtre pour definir la contrainte des donnees a recuperer
      *
      * */
-    private ResponseEntity<String> callResource(UserErpNext user,T document,String id,Object body,HttpMethod method, String[] fields, FrappeFilter filter) throws JsonProcessingException , RestClientException  {
+    private ResponseEntity<String> callResource(UserErpNext user,T document,String id,Object body,HttpMethod method, String[] fields, FrappeFilter filter) throws ErpNextCallException {
 
         String url = apiConfig.getResourceUrl(document.getDoctype(), id, fields, filter != null ? filter.getFilters().getFilters() : null);
         log.info("Targeting api {} document at URL: {}", document.getDoctype(), url);
-        return frappeCall(user, url, method, body);
+        try {
+            return frappeCall(user, url, method, body);
+        } catch (Exception e) {
+            throw new ErpNextCallException(url, method,e);
+        }
     }
 
     /**
@@ -159,7 +175,7 @@ public class FrappeWebService<T extends FrappeDocument> {
      * @throws JsonProcessingException
      * @throws RestClientException
      */
-    private ResponseEntity<String> frappeCall(UserErpNext user, String url, HttpMethod method,Object body) throws JsonProcessingException , RestClientException  {
+    private ResponseEntity<String> frappeCall(UserErpNext user, String url, HttpMethod method,Object body) throws JsonProcessingException , RestClientException, AuthenticationException {
         HttpHeaders headers =  HeadersUtils.createHeaders(user);
 
         HttpEntity<?> httpEntity = null;
@@ -251,7 +267,13 @@ public class FrappeWebService<T extends FrappeDocument> {
         try {
             String url = apiConfig.getMethodUrl(methodPath);
 
-            response = frappeCall(user, url, method, body);
+            try {
+                response = frappeCall(user, url, method, body);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            } catch (RestClientException e) {
+                throw new RuntimeException(e);
+            }
 
             MethodApiResponse<ApiResponse<List<T>>> data = objectMapper.readValue(
                 response.getBody(),
@@ -268,7 +290,8 @@ public class FrappeWebService<T extends FrappeDocument> {
             );
             return data.getMessage();
         } catch (Exception e) {
-            throw new ERPNexException("Error while calling the method \"" + methodPath + "\" : " + e.getMessage(), response);
+//            throw new ERPNexException("Error while calling the method \"" + methodPath + "\" : " + e.getMessage(), response);
+            throw new ERPNexException("Error while calling the method \"" + methodPath + "\" : " + e.getMessage());
         }
     }
 }
