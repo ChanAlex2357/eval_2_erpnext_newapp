@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Quotations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+</head>
+<body>
+    
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container mt-4">
+        <h1>Request for Quotation</h1>
+        
+        <!-- Filter Form -->
+        <form th:action="@{/quotations/requests}" method="get" class="mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <label for="supplierFilter" class="form-label">Filter by Supplier:</label>
+                    <input type="text" class="form-control" id="supplierFilter" name="supplier" 
+                           th:value="${filter.supplier_name}" placeholder="Enter supplier name">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-success text-white mt-4">Filter</button>
+                    <button type="button" onclick="clearFilter()" class="btn btn-secondary text-white mt-4 ms-2">Clear</a>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Quotations Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>No.Sr</th>
+                        <th>Ref</th>
+                        <th>Date</th>
+                        <!-- <th>Status</th> -->
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- This would be populated dynamically from the server -->
+                    <tr th:each="quotation : ${quotations}">
+                        <td th:text="${quotation.name}">QTN-0001</td>
+                        <td th:text="${quotation.ref}">QTN-0001</td>
+                        <td th:text="${#temporals.format(quotation.creation, 'dd-MM-yyyy')}">01-01-2023</td>
+                        <!-- <td>
+                            <span th:class="${quotation.status == 'Draft' ? 'badge bg-warning' : 
+                                            quotation.status == 'Submitted' ? 'badge bg-primary' : 
+                                            quotation.status == 'Cancelled' ? 'badge bg-danger' : 'badge bg-success'}"
+                                  th:text="${quotation.status}">Draft</span>
+                        </td> -->
+                        <td>
+                            <div th:if="${filter.supplier_name != null && filter.supplier_name != ''}">
+                                <a th:href="@{/quotations/requests/{id}/supplier/{supplier}(id=${quotation.name},supplier=${filter.supplier_name})}" class=" text-white btn btn-sm btn-warning">Edit Price</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:unless="${quotations != null and !quotations.isEmpty()}">
+                        <td colspan="7" class="text-center">No quotations found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <p th:text="${error}"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- TODO: Using local api to get the quotation data -->
+    <!-- TODO: Get the quotations table in js and filter locally -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function clearFilter(){
+            const supplier_filter = document.getElementById("supplierFilter");
+            supplier_filter.setAttribute("value","");
+        }
+    </script>
+</body>
+</html>

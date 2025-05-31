@@ -83,10 +83,10 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Group</th>
-                    <th>Company</th>
+                    <!-- <th>Group</th> -->
+                    <!-- <th>Company</th> -->
                     <th>Type</th>
-                    <th>Details</th>
+                    <!-- <th>Details</th> -->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -141,20 +141,20 @@
                         nameCell.textContent = supplier.name;
 
                         // Group column
-                        const groupCell = document.createElement('td');
-                        groupCell.textContent = supplier.supplier_group;
+                        // const groupCell = document.createElement('td');
+                        // groupCell.textContent = supplier.supplier_group;
 
                         // Company column
-                        const companyCell = document.createElement('td');
-                        companyCell.textContent = supplier.represents_company || 'N/A';
+                        // const companyCell = document.createElement('td');
+                        // companyCell.textContent = supplier.represents_company || 'N/A';
 
                         // Type column
                         const typeCell = document.createElement('td');
                         typeCell.textContent = supplier.supplier_type;
 
-                        // Details column
-                        const detailsCell = document.createElement('td');
-                        detailsCell.textContent = supplier.supplier_details || 'No details available';
+                        // // Details column
+                        // const detailsCell = document.createElement('td');
+                        // detailsCell.textContent = supplier.supplier_details || 'No details available';
 
                         // Actions column
                         const actionsCell = document.createElement('td');
@@ -165,15 +165,15 @@
                         // View Quotes button
                         const quotesBtn = document.createElement('button');
                         quotesBtn.className = 'btn btn-quotes';
-                        quotesBtn.textContent = 'View Quotes';
+                        quotesBtn.textContent = 'Quotations';
                         quotesBtn.onclick = function() {
-                            window.location.href = `/quotations?supplier=${supplier.name}`;
+                            window.location.href = `/quotations/requests?supplier=${supplier.name}`;
                         };
                         
                         // View Orders button
                         const viewBtn = document.createElement('button');
                         viewBtn.className = 'btn btn-view';
-                        viewBtn.textContent = 'View Orders';
+                        viewBtn.textContent = 'Commandes';
                         viewBtn.onclick = function() {
                             window.location.href = `/orders?supplier=${supplier.name}`;
                         };
@@ -183,10 +183,10 @@
                         actionsCell.appendChild(actionsDiv);
 
                         row.appendChild(nameCell);
-                        row.appendChild(groupCell);
-                        row.appendChild(companyCell);
+                        // row.appendChild(groupCell);
+                        // row.appendChild(companyCell);
                         row.appendChild(typeCell);
-                        row.appendChild(detailsCell);
+                        // row.appendChild(detailsCell);
                         row.appendChild(actionsCell);
 
                         suppliersBody.appendChild(row);

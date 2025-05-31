@@ -1,23 +1,19 @@
 package itu.eval_2.newapp.models.quotation;
 
-import itu.eval_2.newapp.models.action.FrappeModel;
+import itu.eval_2.newapp.models.purchase.PurchaseBaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SupplierQuotation extends FrappeModel {
-    @JsonProperty("naming_series")
-    private String namingSeries;
+public class SupplierQuotation extends PurchaseBaseModel {
 
-    private String supplier;
-
-    @JsonProperty("supplier_name")
-    private String supplierName;
-
-    private String company;
-    private String status;
+    public SupplierQuotation(){
+        super("Supplier Quotation");
+    }
 
     @JsonProperty("transaction_date")
     private String transactionDate;
@@ -35,13 +31,6 @@ public class SupplierQuotation extends FrappeModel {
     private String costCenter;
 
     private String project;
-    private String currency;
-
-    @JsonProperty("conversion_rate")
-    private double conversionRate;
-
-    @JsonProperty("buying_price_list")
-    private String buyingPriceList;
 
     @JsonProperty("price_list_currency")
     private String priceListCurrency;
@@ -51,26 +40,6 @@ public class SupplierQuotation extends FrappeModel {
 
     @JsonProperty("ignore_pricing_rule")
     private int ignorePricingRule;
-
-    @JsonProperty("total_qty")
-    private int totalQty;
-
-    @JsonProperty("total_net_weight")
-    private double totalNetWeight;
-
-    @JsonProperty("base_total")
-    private double baseTotal;
-
-    @JsonProperty("base_net_total")
-    private double baseNetTotal;
-
-    private double total;
-
-    @JsonProperty("net_total")
-    private double netTotal;
-
-    @JsonProperty("tax_category")
-    private String taxCategory;
 
     @JsonProperty("taxes_and_charges")
     private String taxesAndCharges;
@@ -113,9 +82,6 @@ public class SupplierQuotation extends FrappeModel {
     @JsonProperty("discount_amount")
     private double discountAmount;
 
-    @JsonProperty("base_grand_total")
-    private double baseGrandTotal;
-
     @JsonProperty("base_rounding_adjustment")
     private double baseRoundingAdjustment;
 
@@ -124,9 +90,6 @@ public class SupplierQuotation extends FrappeModel {
 
     @JsonProperty("base_in_words")
     private String baseInWords;
-
-    @JsonProperty("grand_total")
-    private double grandTotal;
 
     @JsonProperty("rounding_adjustment")
     private double roundingAdjustment;
@@ -200,9 +163,15 @@ public class SupplierQuotation extends FrappeModel {
     private SupplierQuotationItem[] items;
 
     @Override
-    public void cotnrole() {
+    public void update_cotnrole() {
         for ( SupplierQuotationItem item : items) {
-            item.cotnrole();
+            item.update_cotnrole();
         }
+    }
+
+    @Override
+    public void save_controle() {
+        // TODO Auto-generated method stub
+        
     }
 }

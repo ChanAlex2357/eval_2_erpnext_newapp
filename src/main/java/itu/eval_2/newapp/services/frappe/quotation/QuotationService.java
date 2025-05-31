@@ -20,4 +20,6 @@ public interface QuotationService {
 
     // TODO: Update or create a new item price for a supplier
     void updateQuotation(UserErpNext user, String id, SupplierQuotation quotation) throws ERPNextIntegrationException;
+
+    SupplierQuotation getQuotationByRequestForQuotation(UserErpNext user, String rfq, String supplier) throws ERPNextIntegrationException;
 }
