@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | Newapp</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" th:href="@{/img/logo.jpeg}" type="image/jpeg">
+</head>
+<body>
+    <div class="main-container">
+        <div th:replace="~{fragments/top-header :: top-header}"></div>
+        <div class="content-container">
+            <div th:replace="~{fragments/menu :: menu}"></div>
+            <main class="container mt-3">
+                <h3>Suppliers</h3>
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <!-- <th>Group</th> -->
+                            <!-- <th>Company</th> -->
+                            <th>Type</th>
+                            <!-- <th>Details</th> -->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="suppliers-body">
+                        <!-- Loading state -->
+                        <tr>
+                            <td colspan="2" class="loading">Loading suppliers...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
+    <script th:inline="javascript">
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const suppliersBody = document.getElementById('suppliers-body');
+            const supplierUri = "http://localhost:8080/api/suppliers";
+            
+            fetch(supplierUri, {
+                method:"GET"
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(body => {
+                // Clear loading message
+                suppliersBody.innerHTML = '';
+                
+                if (body.length === 0) {
+                    suppliersBody.innerHTML = `
+                        <tr>
+                            <td colspan="2" class="loading">No suppliers found</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                console.log(body);
+
+                // Populate table with suppliers
+                // Populate table witbopdpaltiaers
+                body.data.forEach(supplier => {
+                        const row = document.createElement('tr');
+
+                        // Name column
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = supplier.name;
+
+                        // Group column
+                        // const groupCell = document.createElement('td');
+                        // groupCell.textContent = supplier.supplier_group;
+
+                        // Company column
+                        // const companyCell = document.createElement('td');
+                        // companyCell.textContent = supplier.represents_company || 'N/A';
+
+                        // Type column
+                        const typeCell = document.createElement('td');
+                        typeCell.textContent = supplier.supplier_type;
+
+                        // // Details column
+                        // const detailsCell = document.createElement('td');
+                        // detailsCell.textContent = supplier.supplier_details || 'No details available';
+
+                        // Actions column
+                        const actionsCell = document.createElement('td');
+                        const actionsDiv = document.createElement('div');
+                        actionsDiv.className = 'action-buttons';
+
+                        
+                        // View Quotes button
+                        const quotesBtn = document.createElement('button');
+                        quotesBtn.className = 'btn btn-info';
+                        quotesBtn.textContent = 'Quotations';
+                        quotesBtn.onclick = function() {
+                            window.location.href = `/quotations/requests?supplier=${supplier.name}`;
+                        };
+                        
+                        // View Orders button
+                        const viewBtn = document.createElement('button');
+                        viewBtn.className = 'btn btn-success';
+                        viewBtn.textContent = 'Commandes';
+                        viewBtn.onclick = function() {
+                            window.location.href = `/orders?supplier=${supplier.name}`;
+                        };
+                        
+                        actionsDiv.appendChild(quotesBtn);
+                        actionsDiv.appendChild(viewBtn);
+                        actionsCell.appendChild(actionsDiv);
+
+                        row.appendChild(nameCell);
+                        // row.appendChild(groupCell);
+                        // row.appendChild(companyCell);
+                        row.appendChild(typeCell);
+                        // row.appendChild(detailsCell);
+                        row.appendChild(actionsCell);
+
+                        suppliersBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching suppliers:', error);
+                    suppliersBody.innerHTML = '<tr><td colspan="6" class="error">Failed to load suppliers.</td></tr>';
+                });
+        });
+    </script>
+</body>
+</html>
+</html>

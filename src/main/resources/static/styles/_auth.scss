@@ -1,0 +1,103 @@
+@use 'variables' as vars;
+// Auth Page Styles
+.auth-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-avatar {
+  margin-bottom: 1.5rem;
+
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: vars.$primary-color;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+}
+
+.profile-details {
+  width: 100%;
+  margin-bottom: 2rem;
+
+  .detail-group {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+    }
+
+    p {
+      font-size: 1rem;
+      color: vars.$dark-color;
+    }
+
+    .status-active {
+      color: vars.$primary-color;
+      font-weight: 500;
+    }
+
+    .status-inactive {
+      color: #e74c3c;
+      font-weight: 500;
+    }
+  }
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  a {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &.btn-logout {
+      background-color: #f8f9fa;
+      color: #e74c3c;
+      border: 1px solid #e74c3c;
+
+      &:hover {
+        background-color: #fdecea;
+      }
+    }
+
+    &.btn-edit {
+      background-color: vars.$primary-color;
+      color: white;
+
+      &:hover {
+        background-color: vars.$secondary-color;
+      }
+    }
+  }
+}

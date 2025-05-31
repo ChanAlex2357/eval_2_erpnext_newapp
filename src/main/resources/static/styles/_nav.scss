@@ -1,0 +1,27 @@
+.nav-list--column {
+  flex-direction: column;
+  
+}
+.nav-list--row {
+  flex-direction: row;
+}
+.nav-list {
+  display: flex;
+  list-style: none;
+  
+}
+.nav-item {
+  margin: 0 1rem;
+  
+  .nav-link {
+    text-decoration: none;
+    color: $dark-color;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
