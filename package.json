@@ -19,8 +19,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sass": "sass src/main/resources/static/styles/main.scss:src/main/resources/static/css/main.css",
-    "sass:watch": "sass --watch src/main/resources/static/styles/main.scss:src/main/resources/static/css/main.css"
+    "sass": "sass src/main/resources/static/styles/style.scss:src/main/resources/static/css/style.css",
+    "sass:watch": "sass --watch src/main/resources/static/styles/style.scss:src/main/resources/static/css/style.css"
   },
   "devDependencies": {
     "sass": "^1.87.0"

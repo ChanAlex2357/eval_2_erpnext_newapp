@@ -12,13 +12,11 @@ import itu.eval_2.newapp.models.api.responses.ApiResponse;
 import itu.eval_2.newapp.models.api.responses.MethodApiResponse;
 import itu.eval_2.newapp.models.api.responses.ResponseModel;
 import itu.eval_2.newapp.models.api.responses.SingletonApiResourceResponse;
-import itu.eval_2.newapp.models.api.wrapper.ApiResponseWrapper;
 import itu.eval_2.newapp.models.filter.FrappeFilter;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.utils.http.HeadersUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -104,6 +102,10 @@ public class FrappeCRUDService<T extends FrappeDocument> {
     public T createDocument(UserErpNext user, T document, Object body, Class<T> modelClass) throws ERPNextIntegrationException{
         document.save_controle();
         return callForUpdateOrCreateResource(user, null, document, body, HttpMethod.POST, modelClass);
+    }
+
+    public T createDocument(UserErpNext user, T document, Class<T> modelClass) throws ERPNextIntegrationException{
+        return createDocument(user, document, document, modelClass);
     }
 
     /**

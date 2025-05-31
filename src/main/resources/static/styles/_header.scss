@@ -1,0 +1,78 @@
+@use "variables" as vars;
+
+// Top Header
+.top-header {
+  background-color: vars.$dark-color;
+  color: vars.$white-color;
+  .container-fluid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+}
+
+.header-brand {
+  align-items: center;
+}
+
+.logo-img{
+  border-radius: 20%;
+}
+
+.header-actions{
+  flex-grow: 1;
+  gap: 1rem;
+  flex-direction: row;
+  align-items: center;
+} 
+
+// MENU
+
+.side-menu {
+  background-color: white;
+  box-shadow: vars.$shadow-sm;
+  padding: 1rem 0;
+}
+
+
+.header-brand {
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    
+    .logo-img {
+      height: 40px;
+      margin-right: 0.75rem;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: vars.$primary-color;
+    }
+  }
+}
+
+.nav-section{
+  font-weight: 500;
+  
+}
+
+.nav-link {
+  color: black;
+  
+  &:hover {
+    color:vars.$primary-color;
+    font-weight: 500;
+  }
+}
+
+.user-link{
+  color: vars.$white-color;
+
+  &:hover {
+    border-bottom: 1px solid;
+  }
+}

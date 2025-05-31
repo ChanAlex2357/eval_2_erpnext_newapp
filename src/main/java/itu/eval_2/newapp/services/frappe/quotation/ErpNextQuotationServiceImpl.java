@@ -16,7 +16,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -51,7 +53,15 @@ public class ErpNextQuotationServiceImpl extends FrappeCRUDService<SupplierQuota
             String[] quotation_names = ((SupplierQuotationFromRequestResponse)response.getData()).unique_names;
             return getQuotationById(user, quotation_names[0]);
         } catch (Exception e) {
-            throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq+" | "+supplier+"}");
+            try {
+                Map<String, String> body = new HashMap<>();
+                body.put("source_name",rfq);
+                body.put("for_supplier",supplier);
+                return callMethod(user, "erpnext.buying.doctype.request_for_quotation.request_for_quotation", HttpMethod.GET, body, SupplierQuotation.class);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new ERPNextIntegrationException("Supplier Quotation introuvable pour la paire {"+rfq+" | "+supplier+"}");
+            }
         }
     }
 }

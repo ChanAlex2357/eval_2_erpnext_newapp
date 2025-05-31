@@ -1,0 +1,71 @@
+@use "variables" as vars;
+// Footer
+.site-footer {
+    grid-area: 3 / 1 / 4 /-1 ;
+    background-color: vars.$dark-color;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.footer-section-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.footer-section {
+  margin-bottom: 2rem;
+  
+  .footer-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: vars.$light-color;
+  }
+  
+  .footer-links {
+    list-style: none;
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    a {
+      color: #bdc3c7;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        color: white;
+      }
+    }
+  }
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(white, 0.1);
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .copyright {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+  }
+  
+  .social-links {
+    .social-icon {
+      color: white;
+      margin-left: 1rem;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        color: vars.$primary-color;
+      }
+    }
+  }
+}

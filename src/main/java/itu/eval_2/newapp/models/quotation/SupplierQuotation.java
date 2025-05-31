@@ -4,8 +4,6 @@ import itu.eval_2.newapp.models.purchase.PurchaseBaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.sql.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 @Data
 @EqualsAndHashCode(callSuper = false)

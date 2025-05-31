@@ -6,15 +6,12 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Item extends FrappeDocument {
-
-    public Item(){
-        super("Item");
+public class Warehouse extends FrappeDocument{
+    public Warehouse () {
+        super("Warehouse");
     }
 
-    private String item_code;
-    private String item_name;
-    private String item_group;
+    private String warehouse_name;
 
     @Override
     public void update_cotnrole() {
