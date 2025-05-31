@@ -1,6 +1,8 @@
 package itu.eval_2.newapp.controllers.api;
 
 import itu.eval_2.newapp.exceptions.ERPNexException;
+import itu.eval_2.newapp.models.api.responses.ApiListResponse;
+import itu.eval_2.newapp.models.api.responses.ApiResponse;
 import itu.eval_2.newapp.models.item.Item;
 import itu.eval_2.newapp.models.user.UserErpNext;
 import itu.eval_2.newapp.services.frappe.item.ItemService;
@@ -29,8 +31,9 @@ public class ItemApiController {
         Map<String, Object> body = new HashMap<>();
         try {
             List<Item> items = itemService.fetchAllItem(user);
-            body.put("items", items);
-            return  ResponseEntity.ok(body);
+            ApiListResponse<Item> itemResponse = new ApiListResponse<>(true, "Items Fetched successfully", items, null);
+
+            return  ResponseEntity.ok(itemResponse);
         } catch (ERPNexException e) {
             return ResponseEntity.ok(e.getAsApiResponse());
         }

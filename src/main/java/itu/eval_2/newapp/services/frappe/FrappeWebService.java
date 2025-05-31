@@ -62,11 +62,7 @@ public class FrappeWebService<T extends FrappeDocument> {
             );
 
             return result.getData();
-        } catch (ErpNextCallException e) {
-            throw new ERPNexException(
-                String.format("Failed to fetch %s documents: %s", document.getDoctype(), e.getMessage()),
-                e
-            );
+        } catch (ErpNextCallException e) {throw new ERPNexException(e,null);
         }
         catch (JsonMappingException e) {
             throw new RuntimeException(e);

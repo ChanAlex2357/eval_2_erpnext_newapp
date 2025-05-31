@@ -24,8 +24,9 @@ public class ERPNexException extends Exception {
         super(message);
     }
 
-    public ERPNexException(ErpNextCallException callException, ResponseEntity<String> response, Throwable e){
-        super(callException.getMessage(),e);
+    public ERPNexException(ErpNextCallException callException, ResponseEntity<String> response){
+        super(callException.getMessage(),callException.getCause());
+
         setResponse(response);
         setCallException(callException);
     }

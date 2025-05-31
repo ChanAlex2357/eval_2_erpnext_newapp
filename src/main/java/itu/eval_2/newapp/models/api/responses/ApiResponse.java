@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class ApiResponse<T> {
-    private boolean success;
+    private boolean success = true;
     private String message;
     private T data;
+    private String redirection;
     private Object errors;
 }
